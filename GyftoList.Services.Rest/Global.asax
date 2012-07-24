@@ -1,0 +1,1 @@
+<%@ Application Codebehind="Global.asax.cs" Inherits="GyftoList.Services.Rest.Global" Language="C#" %>

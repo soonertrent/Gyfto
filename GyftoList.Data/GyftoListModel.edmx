@@ -1,0 +1,612 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GyftoListModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="GyftoListModelStoreContainer">
+          <EntitySet Name="EmailAddress" EntityType="GyftoListModel.Store.EmailAddress" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Item" EntityType="GyftoListModel.Store.Item" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemCopy" EntityType="GyftoListModel.Store.ItemCopy" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemShare" EntityType="GyftoListModel.Store.ItemShare" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemTag" EntityType="GyftoListModel.Store.ItemTag" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="List" EntityType="GyftoListModel.Store.List" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ListItemOrder" EntityType="GyftoListModel.Store.ListItemOrder" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ListShare" EntityType="GyftoListModel.Store.ListShare" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="GyftoListModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_EmailAddress_User" Association="GyftoListModel.Store.FK_EmailAddress_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="EmailAddress" EntitySet="EmailAddress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemShare_Item" Association="GyftoListModel.Store.FK_ItemShare_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="ItemShare" EntitySet="ItemShare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemTag_Item" Association="GyftoListModel.Store.FK_ItemTag_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="ItemTag" EntitySet="ItemTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListItemOrder_Item" Association="GyftoListModel.Store.FK_ListItemOrder_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="ListItemOrder" EntitySet="ListItemOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListItemOrder_List" Association="GyftoListModel.Store.FK_ListItemOrder_List">
+            <End Role="List" EntitySet="List" />
+            <End Role="ListItemOrder" EntitySet="ListItemOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListShare_List" Association="GyftoListModel.Store.FK_ListShare_List">
+            <End Role="List" EntitySet="List" />
+            <End Role="ListShare" EntitySet="ListShare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListShare_User" Association="GyftoListModel.Store.FK_ListShare_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ListShare" EntitySet="ListShare" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="EmailAddress">
+          <Key>
+            <PropertyRef Name="EmailID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="EmailID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cost" Type="decimal" Scale="2" />
+          <Property Name="ItemURL" Type="varchar(max)" />
+          <Property Name="ImageURL" Type="varchar(max)" />
+          <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemCopy">
+          <Key>
+            <PropertyRef Name="ItemCopyID" />
+          </Key>
+          <Property Name="ItemCopyID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SourceItemID" Type="int" Nullable="false" />
+          <Property Name="CopyItemID" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemShare">
+          <Key>
+            <PropertyRef Name="ItemShareID" />
+            <PropertyRef Name="ItemID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="ItemShareID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ItemID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="smalldatetime" />
+        </EntityType>
+        <EntityType Name="ItemTag">
+          <Key>
+            <PropertyRef Name="ItemTagID" />
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemTagID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ItemID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="ListID" />
+          </Key>
+          <Property Name="ListID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PublicKey" Type="char" MaxLength="8" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ListItemOrder">
+          <Key>
+            <PropertyRef Name="ListItemOrderID" />
+            <PropertyRef Name="ListID" />
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ListItemOrderID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ListID" Type="int" Nullable="false" />
+          <Property Name="ItemID" Type="int" Nullable="false" />
+          <Property Name="Ordinal" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ListShare">
+          <Key>
+            <PropertyRef Name="ListShareID" />
+            <PropertyRef Name="ListID" />
+            <PropertyRef Name="OwnerID" />
+          </Key>
+          <Property Name="ListShareID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ListID" Type="int" Nullable="false" />
+          <Property Name="OwnerID" Type="int" Nullable="false" />
+          <Property Name="PublicKey" Type="char" Nullable="false" MaxLength="8" />
+          <Property Name="CreateDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="PublicKey" Type="char" MaxLength="8" />
+          <Property Name="Password" Type="varchar" MaxLength="28" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="smalldatetime" />
+        </EntityType>
+        <Association Name="FK_EmailAddress_User">
+          <End Role="User" Type="GyftoListModel.Store.User" Multiplicity="1" />
+          <End Role="EmailAddress" Type="GyftoListModel.Store.EmailAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="EmailAddress">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemShare_Item">
+          <End Role="Item" Type="GyftoListModel.Store.Item" Multiplicity="1" />
+          <End Role="ItemShare" Type="GyftoListModel.Store.ItemShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ItemShare">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemTag_Item">
+          <End Role="Item" Type="GyftoListModel.Store.Item" Multiplicity="1" />
+          <End Role="ItemTag" Type="GyftoListModel.Store.ItemTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ItemTag">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListItemOrder_Item">
+          <End Role="Item" Type="GyftoListModel.Store.Item" Multiplicity="1" />
+          <End Role="ListItemOrder" Type="GyftoListModel.Store.ListItemOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ListItemOrder">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListItemOrder_List">
+          <End Role="List" Type="GyftoListModel.Store.List" Multiplicity="1" />
+          <End Role="ListItemOrder" Type="GyftoListModel.Store.ListItemOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="ListID" />
+            </Principal>
+            <Dependent Role="ListItemOrder">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListShare_List">
+          <End Role="List" Type="GyftoListModel.Store.List" Multiplicity="1" />
+          <End Role="ListShare" Type="GyftoListModel.Store.ListShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="ListID" />
+            </Principal>
+            <Dependent Role="ListShare">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListShare_User">
+          <End Role="User" Type="GyftoListModel.Store.User" Multiplicity="1" />
+          <End Role="ListShare" Type="GyftoListModel.Store.ListShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ListShare">
+              <PropertyRef Name="OwnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GyftoListModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="GyftoListEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EmailAddresses" EntityType="GyftoListModel.EmailAddress" />
+          <EntitySet Name="Items" EntityType="GyftoListModel.Item" />
+          <EntitySet Name="ItemShares" EntityType="GyftoListModel.ItemShare" />
+          <EntitySet Name="ItemTags" EntityType="GyftoListModel.ItemTag" />
+          <EntitySet Name="Lists" EntityType="GyftoListModel.List" />
+          <EntitySet Name="ListItemOrders" EntityType="GyftoListModel.ListItemOrder" />
+          <EntitySet Name="ListShares" EntityType="GyftoListModel.ListShare" />
+          <EntitySet Name="Users" EntityType="GyftoListModel.User" />
+          <AssociationSet Name="FK_EmailAddress_User" Association="GyftoListModel.FK_EmailAddress_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="EmailAddress" EntitySet="EmailAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemShare_Item" Association="GyftoListModel.FK_ItemShare_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemShare" EntitySet="ItemShares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemTag_Item" Association="GyftoListModel.FK_ItemTag_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemTag" EntitySet="ItemTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListItemOrder_Item" Association="GyftoListModel.FK_ListItemOrder_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ListItemOrder" EntitySet="ListItemOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListItemOrder_List" Association="GyftoListModel.FK_ListItemOrder_List">
+            <End Role="List" EntitySet="Lists" />
+            <End Role="ListItemOrder" EntitySet="ListItemOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListShare_List" Association="GyftoListModel.FK_ListShare_List">
+            <End Role="List" EntitySet="Lists" />
+            <End Role="ListShare" EntitySet="ListShares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListShare_User" Association="GyftoListModel.FK_ListShare_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ListShare" EntitySet="ListShares" />
+          </AssociationSet>
+          <EntitySet Name="ItemCopies" EntityType="GyftoListModel.ItemCopy" />
+        </EntityContainer>
+        <EntityType Name="EmailAddress">
+          <Key>
+            <PropertyRef Name="EmailID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="EmailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="EmailAddress1" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="CreatedDate" Type="DateTime" />
+          <NavigationProperty Name="User" Relationship="GyftoListModel.FK_EmailAddress_User" FromRole="EmailAddress" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Title" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ItemURL" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ImageURL" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="ItemShares" Relationship="GyftoListModel.FK_ItemShare_Item" FromRole="Item" ToRole="ItemShare" />
+          <NavigationProperty Name="ItemTags" Relationship="GyftoListModel.FK_ItemTag_Item" FromRole="Item" ToRole="ItemTag" />
+          <NavigationProperty Name="ListItemOrders" Relationship="GyftoListModel.FK_ListItemOrder_Item" FromRole="Item" ToRole="ListItemOrder" />
+        </EntityType>
+        <EntityType Name="ItemShare">
+          <Key>
+            <PropertyRef Name="ItemShareID" />
+            <PropertyRef Name="ItemID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="ItemShareID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" />
+          <NavigationProperty Name="Item" Relationship="GyftoListModel.FK_ItemShare_Item" FromRole="ItemShare" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="ItemTag">
+          <Key>
+            <PropertyRef Name="ItemTagID" />
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ItemTagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="GyftoListModel.FK_ItemTag_Item" FromRole="ItemTag" ToRole="Item" />
+        </EntityType>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="ListID" />
+          </Key>
+          <Property Name="ListID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PublicKey" Type="String" MaxLength="8" Unicode="false" FixedLength="true" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="ListItemOrders" Relationship="GyftoListModel.FK_ListItemOrder_List" FromRole="List" ToRole="ListItemOrder" />
+          <NavigationProperty Name="ListShares" Relationship="GyftoListModel.FK_ListShare_List" FromRole="List" ToRole="ListShare" />
+        </EntityType>
+        <EntityType Name="ListItemOrder">
+          <Key>
+            <PropertyRef Name="ListItemOrderID" />
+            <PropertyRef Name="ListID" />
+            <PropertyRef Name="ItemID" />
+          </Key>
+          <Property Name="ListItemOrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ListID" Type="Int32" Nullable="false" />
+          <Property Name="ItemID" Type="Int32" Nullable="false" />
+          <Property Name="Ordinal" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="GyftoListModel.FK_ListItemOrder_Item" FromRole="ListItemOrder" ToRole="Item" />
+          <NavigationProperty Name="List" Relationship="GyftoListModel.FK_ListItemOrder_List" FromRole="ListItemOrder" ToRole="List" />
+        </EntityType>
+        <EntityType Name="ListShare">
+          <Key>
+            <PropertyRef Name="ListShareID" />
+            <PropertyRef Name="ListID" />
+            <PropertyRef Name="OwnerID" />
+          </Key>
+          <Property Name="ListShareID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ListID" Type="Int32" Nullable="false" />
+          <Property Name="OwnerID" Type="Int32" Nullable="false" />
+          <Property Name="PublicKey" Type="String" Nullable="false" MaxLength="8" Unicode="false" FixedLength="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="List" Relationship="GyftoListModel.FK_ListShare_List" FromRole="ListShare" ToRole="List" />
+          <NavigationProperty Name="User" Relationship="GyftoListModel.FK_ListShare_User" FromRole="ListShare" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PublicKey" Type="String" MaxLength="8" Unicode="false" FixedLength="true" />
+          <Property Name="Password" Type="String" MaxLength="28" Unicode="false" FixedLength="false" />
+          <Property Name="FName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="LName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CreatedDate" Type="DateTime" />
+          <NavigationProperty Name="EmailAddresses" Relationship="GyftoListModel.FK_EmailAddress_User" FromRole="User" ToRole="EmailAddress" />
+          <NavigationProperty Name="ListShares" Relationship="GyftoListModel.FK_ListShare_User" FromRole="User" ToRole="ListShare" />
+        </EntityType>
+        <Association Name="FK_EmailAddress_User">
+          <End Role="User" Type="GyftoListModel.User" Multiplicity="1" />
+          <End Role="EmailAddress" Type="GyftoListModel.EmailAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="EmailAddress">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemShare_Item">
+          <End Role="Item" Type="GyftoListModel.Item" Multiplicity="1" />
+          <End Role="ItemShare" Type="GyftoListModel.ItemShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ItemShare">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemTag_Item">
+          <End Role="Item" Type="GyftoListModel.Item" Multiplicity="1" />
+          <End Role="ItemTag" Type="GyftoListModel.ItemTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ItemTag">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListItemOrder_Item">
+          <End Role="Item" Type="GyftoListModel.Item" Multiplicity="1" />
+          <End Role="ListItemOrder" Type="GyftoListModel.ListItemOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="ItemID" />
+            </Principal>
+            <Dependent Role="ListItemOrder">
+              <PropertyRef Name="ItemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListItemOrder_List">
+          <End Role="List" Type="GyftoListModel.List" Multiplicity="1" />
+          <End Role="ListItemOrder" Type="GyftoListModel.ListItemOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="ListID" />
+            </Principal>
+            <Dependent Role="ListItemOrder">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListShare_List">
+          <End Role="List" Type="GyftoListModel.List" Multiplicity="1" />
+          <End Role="ListShare" Type="GyftoListModel.ListShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="ListID" />
+            </Principal>
+            <Dependent Role="ListShare">
+              <PropertyRef Name="ListID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListShare_User">
+          <End Role="User" Type="GyftoListModel.User" Multiplicity="1" />
+          <End Role="ListShare" Type="GyftoListModel.ListShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ListShare">
+              <PropertyRef Name="OwnerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ItemCopy">
+          <Key>
+            <PropertyRef Name="ItemCopyID" />
+          </Key>
+          <Property Type="Int32" Name="ItemCopyID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SourceItemID" Nullable="false" />
+          <Property Type="Int32" Name="CopyItemID" Nullable="false" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GyftoListModelStoreContainer" CdmEntityContainer="GyftoListEntities">
+          <EntitySetMapping Name="EmailAddresses"><EntityTypeMapping TypeName="GyftoListModel.EmailAddress"><MappingFragment StoreEntitySet="EmailAddress">
+            <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+            <ScalarProperty Name="UserID" ColumnName="UserID" />
+            <ScalarProperty Name="EmailAddress1" ColumnName="EmailAddress" />
+            <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Items"><EntityTypeMapping TypeName="GyftoListModel.Item"><MappingFragment StoreEntitySet="Item">
+            <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            <ScalarProperty Name="Active" ColumnName="Active" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Cost" ColumnName="Cost" />
+            <ScalarProperty Name="ItemURL" ColumnName="ItemURL" />
+            <ScalarProperty Name="ImageURL" ColumnName="ImageURL" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ItemShares"><EntityTypeMapping TypeName="GyftoListModel.ItemShare"><MappingFragment StoreEntitySet="ItemShare">
+            <ScalarProperty Name="ItemShareID" ColumnName="ItemShareID" />
+            <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            <ScalarProperty Name="UserID" ColumnName="UserID" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ItemTags"><EntityTypeMapping TypeName="GyftoListModel.ItemTag"><MappingFragment StoreEntitySet="ItemTag">
+            <ScalarProperty Name="ItemTagID" ColumnName="ItemTagID" />
+            <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Lists"><EntityTypeMapping TypeName="GyftoListModel.List"><MappingFragment StoreEntitySet="List">
+            <ScalarProperty Name="ListID" ColumnName="ListID" />
+            <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+            <ScalarProperty Name="UserID" ColumnName="UserID" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+            <ScalarProperty Name="Active" ColumnName="Active" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ListItemOrders"><EntityTypeMapping TypeName="GyftoListModel.ListItemOrder"><MappingFragment StoreEntitySet="ListItemOrder">
+            <ScalarProperty Name="ListItemOrderID" ColumnName="ListItemOrderID" />
+            <ScalarProperty Name="ListID" ColumnName="ListID" />
+            <ScalarProperty Name="ItemID" ColumnName="ItemID" />
+            <ScalarProperty Name="Ordinal" ColumnName="Ordinal" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ListShares"><EntityTypeMapping TypeName="GyftoListModel.ListShare"><MappingFragment StoreEntitySet="ListShare">
+            <ScalarProperty Name="ListShareID" ColumnName="ListShareID" />
+            <ScalarProperty Name="ListID" ColumnName="ListID" />
+            <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+            <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="GyftoListModel.User"><MappingFragment StoreEntitySet="User">
+            <ScalarProperty Name="UserID" ColumnName="UserID" />
+            <ScalarProperty Name="PublicKey" ColumnName="PublicKey" />
+            <ScalarProperty Name="Password" ColumnName="Password" />
+            <ScalarProperty Name="FName" ColumnName="FName" />
+            <ScalarProperty Name="LName" ColumnName="LName" />
+            <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ItemCopies">
+            <EntityTypeMapping TypeName="GyftoListModel.ItemCopy">
+              <MappingFragment StoreEntitySet="ItemCopy">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CopyItemID" ColumnName="CopyItemID" />
+                <ScalarProperty Name="SourceItemID" ColumnName="SourceItemID" />
+                <ScalarProperty Name="ItemCopyID" ColumnName="ItemCopyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="GyftoListModel">
+        <EntityTypeShape EntityType="GyftoListModel.EmailAddress" Width="1.5" PointX="8" PointY="8.5" Height="1.7566536458333317" IsExpanded="true" />
+        <EntityTypeShape EntityType="GyftoListModel.Item" Width="1.5" PointX="0.75" PointY="3.375" Height="2.7427376302083322" IsExpanded="true" />
+        <EntityTypeShape EntityType="GyftoListModel.ItemShare" Width="1.5" PointX="3" PointY="2.625" Height="1.7566536458333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="GyftoListModel.ItemTag" Width="1.5" PointX="3" PointY="5.125" Height="1.7566536458333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="GyftoListModel.List" Width="1.5" PointX="3.75" PointY="9.5" Height="2.4140429687499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="GyftoListModel.ListItemOrder" Width="1.5" PointX="6" PointY="3.625" Height="2.0853483072916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="GyftoListModel.ListShare" Width="1.5" PointX="8" PointY="11" Height="2.0853483072916674" IsExpanded="true" />
+        <EntityTypeShape EntityType="GyftoListModel.User" Width="1.5" PointX="5.75" PointY="8.25" Height="2.2496956380208317" IsExpanded="true" />
+        <AssociationConnector Association="GyftoListModel.FK_EmailAddress_User" ManuallyRouted="false">
+          <ConnectorPoint PointX="7.25" PointY="9.3783268229166659" />
+          <ConnectorPoint PointX="8" PointY="9.3783268229166659" />
+        </AssociationConnector>
+        <AssociationConnector Association="GyftoListModel.FK_ItemShare_Item" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="3.8783268229166667" />
+          <ConnectorPoint PointX="3" PointY="3.8783268229166667" />
+        </AssociationConnector>
+        <AssociationConnector Association="GyftoListModel.FK_ItemTag_Item" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="5.6213688151041659" />
+          <ConnectorPoint PointX="3" PointY="5.6213688151041659" />
+        </AssociationConnector>
+        <AssociationConnector Association="GyftoListModel.FK_ListItemOrder_Item" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.7533268229166667" />
+          <ConnectorPoint PointX="6" PointY="4.7533268229166667" />
+        </AssociationConnector>
+        <AssociationConnector Association="GyftoListModel.FK_ListItemOrder_List" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.90625" PointY="9.5" />
+          <ConnectorPoint PointX="4.90625" PointY="4.9391659114583337" />
+          <ConnectorPoint PointX="6" PointY="4.9391659114583337" />
+        </AssociationConnector>
+        <AssociationConnector Association="GyftoListModel.FK_ListShare_List" ManuallyRouted="false">
+          <ConnectorPoint PointX="5.25" PointY="11.457021484375" />
+          <ConnectorPoint PointX="6.416666666666667" PointY="11.457021484375" />
+          <ConnectorPoint PointX="6.583333333333333" PointY="11.457021484375" />
+          <ConnectorPoint PointX="8" PointY="11.457021484375" />
+        </AssociationConnector>
+        <AssociationConnector Association="GyftoListModel.FK_ListShare_User" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.5" PointY="10.499695638020832" />
+          <ConnectorPoint PointX="6.5" PointY="12.302437395833334" />
+          <ConnectorPoint PointX="8" PointY="12.302437395833334" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="GyftoListModel.ItemCopy" Width="1.5" PointX="5.375" PointY="0.75" Height="1.5923063151041674" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
