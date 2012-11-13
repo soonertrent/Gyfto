@@ -40,8 +40,8 @@ namespace GyftoList.ConsoleAppTester
             //var count = QueryEmailAddresses();
             //var user = CreateUserAccount();
 
-            //Item newItem = CreateListItem();
-            UpdateListItemOrdinal("d8d4c3d0", 14);
+            Item newItem = CreateListItem();
+            //UpdateListItemOrdinal("d8d4c3d0", 14);
 
         }
 
@@ -56,11 +56,11 @@ namespace GyftoList.ConsoleAppTester
             gData = new DataMethods();
 
             string listPublicKey = "49c8f932";
-            string itemTitle = "Kimi Raikkonen T-Shirt";
-            string itemDescription = "Size - L, color - Blue";
-            string itemURL = "http://www.shotdeadinthehead.com/kimi-raikkonen-2-t-shirt-mens.html";
-            string itemImageURL = "http://static2.shotdeadinthehead.co.uk/media/catalog/product/cache/7/thumbnail/80x/0dc2d03fe217f8c83829496872af24a0/i/m/image_16353_1_195315_1_22450.jpg";
-            decimal itemCost = 27.99m;
+            string itemTitle = "iPad Mini";
+            string itemDescription = "Black, 16gb";
+            string itemURL = "http://store.apple.com/us/buy/home/shop_ipad/family/ipad_mini";
+            string itemImageURL = "http://store.storeimages.cdn-apple.com/2979/as-images.apple.com/is/image/AppleInc/2012-ipadmini-step1-black?wid=150&hei=195&fmt=png-alpha&qlt=95";
+            decimal itemCost = 329.00m;
             int itemOrdinal = GetItemsForList(listPublicKey) + 1;
             
             return gData.ListItem_Create(listPublicKey, itemTitle, itemDescription, itemCost, itemOrdinal, itemImageURL, itemURL);

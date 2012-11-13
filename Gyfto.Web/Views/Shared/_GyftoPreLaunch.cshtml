@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 
-<html>
-<head>
+<html style="background-color:#e96700;">
+<head >
     <meta charset="utf-8" />
     <title>Gyfto - The social giftlist site</title>
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -11,16 +11,11 @@
     <script type="text/javascript" src="//use.typekit.net/ita4bwu.js"></script>
     <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
 </head>
-<body>
-    <H1 class="topTitle">Gyfto</H1>
-    <div class="mainContentAreaContainer">
-        <div class="mainContentArea">
-            <div class="renderBody">
-                @RenderBody()
-            </div>
-        </div>
+<body >
+    <div class="mainContentAreaContainer_PreLaunch">
+        @RenderBody()
     </div>
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
 </body>
 </html>
