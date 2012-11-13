@@ -1,0 +1,43 @@
+﻿@model GyftoList.API.Translations.API_User
+
+@{
+    ViewBag.Title = "Sample";
+}
+
+<h2>Sample</h2>
+
+<fieldset>
+    <legend>API_User</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DisplayName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DisplayName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PublicKey)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PublicKey)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

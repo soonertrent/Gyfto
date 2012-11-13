@@ -1,0 +1,24 @@
+GetAllUsers
+/api/user/
+
+
+GetUser
+http://localhost:53386/api/user/49c8f932
+http://localhost:53386/api/user/1c89e963
+
+
+GetList
+http://localhost:53386/api/list/49c8f932
+
+
+GetListShare
+http://localhost:53386/api/listshare/1c89e969
+
+
+Post ItemExclusion
+http://localhost:53386/api/itemexclusion/
+
+Content-Type: application/json; charset=utf-8
+Content-Length: 15
+
+{"ItemPublicKey":"d8d4c3d0","ListSharePublicKey":"1c89e969"}

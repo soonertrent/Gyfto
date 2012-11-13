@@ -1,6 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{484D7194-CBB7-44E7-979D-694449A9C250}"
+	ProjectSection(SolutionItems) = preProject
+		GyftoList.vsmdi = GyftoList.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GyftoList.Util", "GyftoList.Util\GyftoList.Util.csproj", "{E911F682-E65C-48A5-975C-60A3785805A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GyftoList.Services", "GyftoList.Services\GyftoList.Services.csproj", "{67F1817D-248B-48FA-9660-044A408D9B05}"
@@ -12,18 +19,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GyftoList.Test", "GyftoList
 		{67F1817D-248B-48FA-9660-044A408D9B05} = {67F1817D-248B-48FA-9660-044A408D9B05}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{484D7194-CBB7-44E7-979D-694449A9C250}"
-	ProjectSection(SolutionItems) = preProject
-		GyftoList.vsmdi = GyftoList.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GyftoList.Services.Rest", "GyftoList.Services.Rest\GyftoList.Services.Rest.csproj", "{23E95D00-F561-4CCC-B18A-E66924055D34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GyftoList.Web", "GyftoList.Web\GyftoList.Web.csproj", "{41A57925-DEDA-4566-8CED-93B4A28CCEFC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GyftoList.Data", "GyftoList.Data\GyftoList.Data.csproj", "{E083832F-9D02-4DCF-A192-9054266ECF6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GyftoList.API", "GyftoList.API\GyftoList.API.csproj", "{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FB7BC6AF-9488-4297-8560-1FA7F90E62FA}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gyfto.Web", "Gyfto.Web\Gyfto.Web.csproj", "{7C626427-C25D-4605-B5C7-1C6B84E239A1}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -88,16 +95,6 @@ Global
 		{23E95D00-F561-4CCC-B18A-E66924055D34}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{23E95D00-F561-4CCC-B18A-E66924055D34}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{23E95D00-F561-4CCC-B18A-E66924055D34}.Release|x86.ActiveCfg = Release|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{41A57925-DEDA-4566-8CED-93B4A28CCEFC}.Release|x86.ActiveCfg = Release|Any CPU
 		{E083832F-9D02-4DCF-A192-9054266ECF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E083832F-9D02-4DCF-A192-9054266ECF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E083832F-9D02-4DCF-A192-9054266ECF6E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -108,6 +105,26 @@ Global
 		{E083832F-9D02-4DCF-A192-9054266ECF6E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E083832F-9D02-4DCF-A192-9054266ECF6E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E083832F-9D02-4DCF-A192-9054266ECF6E}.Release|x86.ActiveCfg = Release|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7C626427-C25D-4605-B5C7-1C6B84E239A1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

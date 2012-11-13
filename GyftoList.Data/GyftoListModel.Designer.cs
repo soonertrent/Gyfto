@@ -8,23 +8,24 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("GyftoListModel", "FK_EmailAddress_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.User), "EmailAddress", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.EmailAddress), true)]
-[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ItemShare_Item", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.Item), "ItemShare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ItemShare), true)]
-[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ItemTag_Item", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.Item), "ItemTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ItemTag), true)]
-[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListItemOrder_Item", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.Item), "ListItemOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListItemOrder), true)]
-[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListItemOrder_List", "List", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.List), "ListItemOrder", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListItemOrder), true)]
+[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_Item_List", "List", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.List), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.Item), true)]
+[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ItemExclusion_Item", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.Item), "ItemExclusion", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ItemExclusion), true)]
+[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_List_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GyftoList.Data.User), "List", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.List), true)]
 [assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListShare_List", "List", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.List), "ListShare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListShare), true)]
-[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListShare_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.User), "ListShare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListShare), true)]
+[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListShare_UserConsumer", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.User), "ListShare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListShare), true)]
+[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListShare_UserOwner", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.User), "ListShare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListShare), true)]
 
 #endregion
 
@@ -111,34 +112,18 @@ namespace GyftoList.Data
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<ItemShare> ItemShares
+        public ObjectSet<ItemExclusion> ItemExclusions
         {
             get
             {
-                if ((_ItemShares == null))
+                if ((_ItemExclusions == null))
                 {
-                    _ItemShares = base.CreateObjectSet<ItemShare>("ItemShares");
+                    _ItemExclusions = base.CreateObjectSet<ItemExclusion>("ItemExclusions");
                 }
-                return _ItemShares;
+                return _ItemExclusions;
             }
         }
-        private ObjectSet<ItemShare> _ItemShares;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<ItemTag> ItemTags
-        {
-            get
-            {
-                if ((_ItemTags == null))
-                {
-                    _ItemTags = base.CreateObjectSet<ItemTag>("ItemTags");
-                }
-                return _ItemTags;
-            }
-        }
-        private ObjectSet<ItemTag> _ItemTags;
+        private ObjectSet<ItemExclusion> _ItemExclusions;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -155,22 +140,6 @@ namespace GyftoList.Data
             }
         }
         private ObjectSet<List> _Lists;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<ListItemOrder> ListItemOrders
-        {
-            get
-            {
-                if ((_ListItemOrders == null))
-                {
-                    _ListItemOrders = base.CreateObjectSet<ListItemOrder>("ListItemOrders");
-                }
-                return _ListItemOrders;
-            }
-        }
-        private ObjectSet<ListItemOrder> _ListItemOrders;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -203,24 +172,9 @@ namespace GyftoList.Data
             }
         }
         private ObjectSet<User> _Users;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<ItemCopy> ItemCopies
-        {
-            get
-            {
-                if ((_ItemCopies == null))
-                {
-                    _ItemCopies = base.CreateObjectSet<ItemCopy>("ItemCopies");
-                }
-                return _ItemCopies;
-            }
-        }
-        private ObjectSet<ItemCopy> _ItemCopies;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -240,19 +194,11 @@ namespace GyftoList.Data
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the ItemShares EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the ItemExclusions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToItemShares(ItemShare itemShare)
+        public void AddToItemExclusions(ItemExclusion itemExclusion)
         {
-            base.AddObject("ItemShares", itemShare);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ItemTags EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToItemTags(ItemTag itemTag)
-        {
-            base.AddObject("ItemTags", itemTag);
+            base.AddObject("ItemExclusions", itemExclusion);
         }
     
         /// <summary>
@@ -261,14 +207,6 @@ namespace GyftoList.Data
         public void AddToLists(List list)
         {
             base.AddObject("Lists", list);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ListItemOrders EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToListItemOrders(ListItemOrder listItemOrder)
-        {
-            base.AddObject("ListItemOrders", listItemOrder);
         }
     
         /// <summary>
@@ -286,21 +224,13 @@ namespace GyftoList.Data
         {
             base.AddObject("Users", user);
         }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ItemCopies EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToItemCopies(ItemCopy itemCopy)
-        {
-            base.AddObject("ItemCopies", itemCopy);
-        }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -329,6 +259,7 @@ namespace GyftoList.Data
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -432,8 +363,33 @@ namespace GyftoList.Data
         private Nullable<global::System.DateTime> _CreatedDate;
         partial void OnCreatedDateChanging(Nullable<global::System.DateTime> value);
         partial void OnCreatedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> IsDefault
+        {
+            get
+            {
+                return _IsDefault;
+            }
+            set
+            {
+                OnIsDefaultChanging(value);
+                ReportPropertyChanging("IsDefault");
+                _IsDefault = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsDefault");
+                OnIsDefaultChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _IsDefault;
+        partial void OnIsDefaultChanging(Nullable<global::System.Boolean> value);
+        partial void OnIsDefaultChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -476,6 +432,7 @@ namespace GyftoList.Data
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -492,16 +449,19 @@ namespace GyftoList.Data
         /// Create a new Item object.
         /// </summary>
         /// <param name="itemID">Initial value of the ItemID property.</param>
+        /// <param name="listID">Initial value of the ListID property.</param>
         /// <param name="createDate">Initial value of the CreateDate property.</param>
-        public static Item CreateItem(global::System.Int32 itemID, global::System.DateTime createDate)
+        public static Item CreateItem(global::System.Int32 itemID, global::System.Int32 listID, global::System.DateTime createDate)
         {
             Item item = new Item();
             item.ItemID = itemID;
+            item.ListID = listID;
             item.CreateDate = createDate;
             return item;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -530,6 +490,54 @@ namespace GyftoList.Data
         private global::System.Int32 _ItemID;
         partial void OnItemIDChanging(global::System.Int32 value);
         partial void OnItemIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ListID
+        {
+            get
+            {
+                return _ListID;
+            }
+            set
+            {
+                OnListIDChanging(value);
+                ReportPropertyChanging("ListID");
+                _ListID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ListID");
+                OnListIDChanged();
+            }
+        }
+        private global::System.Int32 _ListID;
+        partial void OnListIDChanging(global::System.Int32 value);
+        partial void OnListIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String PublicKey
+        {
+            get
+            {
+                return _PublicKey;
+            }
+            set
+            {
+                OnPublicKeyChanging(value);
+                ReportPropertyChanging("PublicKey");
+                _PublicKey = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("PublicKey");
+                OnPublicKeyChanged();
+            }
+        }
+        private global::System.String _PublicKey;
+        partial void OnPublicKeyChanging(global::System.String value);
+        partial void OnPublicKeyChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -678,6 +686,30 @@ namespace GyftoList.Data
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> Ordinal
+        {
+            get
+            {
+                return _Ordinal;
+            }
+            set
+            {
+                OnOrdinalChanging(value);
+                ReportPropertyChanging("Ordinal");
+                _Ordinal = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Ordinal");
+                OnOrdinalChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _Ordinal;
+        partial void OnOrdinalChanging(Nullable<global::System.Int32> value);
+        partial void OnOrdinalChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.DateTime CreateDate
@@ -700,6 +732,7 @@ namespace GyftoList.Data
         partial void OnCreateDateChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -709,18 +742,34 @@ namespace GyftoList.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemShare_Item", "ItemShare")]
-        public EntityCollection<ItemShare> ItemShares
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_Item_List", "List")]
+        public List List
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ItemShare>("GyftoListModel.FK_ItemShare_Item", "ItemShare");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<List>("GyftoListModel.FK_Item_List", "List").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<List>("GyftoListModel.FK_Item_List", "List").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<List> ListReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<List>("GyftoListModel.FK_Item_List", "List");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ItemShare>("GyftoListModel.FK_ItemShare_Item", "ItemShare", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<List>("GyftoListModel.FK_Item_List", "List", value);
                 }
             }
         }
@@ -731,206 +780,53 @@ namespace GyftoList.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemTag_Item", "ItemTag")]
-        public EntityCollection<ItemTag> ItemTags
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemExclusion_Item", "ItemExclusion")]
+        public EntityCollection<ItemExclusion> ItemExclusions
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ItemTag>("GyftoListModel.FK_ItemTag_Item", "ItemTag");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ItemExclusion>("GyftoListModel.FK_ItemExclusion_Item", "ItemExclusion");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ItemTag>("GyftoListModel.FK_ItemTag_Item", "ItemTag", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListItemOrder_Item", "ListItemOrder")]
-        public EntityCollection<ListItemOrder> ListItemOrders
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ListItemOrder>("GyftoListModel.FK_ListItemOrder_Item", "ListItemOrder");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ListItemOrder>("GyftoListModel.FK_ListItemOrder_Item", "ListItemOrder", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ItemExclusion>("GyftoListModel.FK_ItemExclusion_Item", "ItemExclusion", value);
                 }
             }
         }
 
         #endregion
+
     }
     
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="ItemCopy")]
+    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="ItemExclusion")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class ItemCopy : EntityObject
+    public partial class ItemExclusion : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new ItemCopy object.
+        /// Create a new ItemExclusion object.
         /// </summary>
-        /// <param name="itemCopyID">Initial value of the ItemCopyID property.</param>
-        /// <param name="sourceItemID">Initial value of the SourceItemID property.</param>
-        /// <param name="copyItemID">Initial value of the CopyItemID property.</param>
-        /// <param name="createDate">Initial value of the CreateDate property.</param>
-        public static ItemCopy CreateItemCopy(global::System.Int32 itemCopyID, global::System.Int32 sourceItemID, global::System.Int32 copyItemID, global::System.DateTime createDate)
-        {
-            ItemCopy itemCopy = new ItemCopy();
-            itemCopy.ItemCopyID = itemCopyID;
-            itemCopy.SourceItemID = sourceItemID;
-            itemCopy.CopyItemID = copyItemID;
-            itemCopy.CreateDate = createDate;
-            return itemCopy;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ItemCopyID
-        {
-            get
-            {
-                return _ItemCopyID;
-            }
-            set
-            {
-                if (_ItemCopyID != value)
-                {
-                    OnItemCopyIDChanging(value);
-                    ReportPropertyChanging("ItemCopyID");
-                    _ItemCopyID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ItemCopyID");
-                    OnItemCopyIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ItemCopyID;
-        partial void OnItemCopyIDChanging(global::System.Int32 value);
-        partial void OnItemCopyIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 SourceItemID
-        {
-            get
-            {
-                return _SourceItemID;
-            }
-            set
-            {
-                OnSourceItemIDChanging(value);
-                ReportPropertyChanging("SourceItemID");
-                _SourceItemID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("SourceItemID");
-                OnSourceItemIDChanged();
-            }
-        }
-        private global::System.Int32 _SourceItemID;
-        partial void OnSourceItemIDChanging(global::System.Int32 value);
-        partial void OnSourceItemIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 CopyItemID
-        {
-            get
-            {
-                return _CopyItemID;
-            }
-            set
-            {
-                OnCopyItemIDChanging(value);
-                ReportPropertyChanging("CopyItemID");
-                _CopyItemID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CopyItemID");
-                OnCopyItemIDChanged();
-            }
-        }
-        private global::System.Int32 _CopyItemID;
-        partial void OnCopyItemIDChanging(global::System.Int32 value);
-        partial void OnCopyItemIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime CreateDate
-        {
-            get
-            {
-                return _CreateDate;
-            }
-            set
-            {
-                OnCreateDateChanging(value);
-                ReportPropertyChanging("CreateDate");
-                _CreateDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CreateDate");
-                OnCreateDateChanged();
-            }
-        }
-        private global::System.DateTime _CreateDate;
-        partial void OnCreateDateChanging(global::System.DateTime value);
-        partial void OnCreateDateChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="ItemShare")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class ItemShare : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new ItemShare object.
-        /// </summary>
-        /// <param name="itemShareID">Initial value of the ItemShareID property.</param>
+        /// <param name="itemExclusionID">Initial value of the ItemExclusionID property.</param>
         /// <param name="itemID">Initial value of the ItemID property.</param>
-        /// <param name="userID">Initial value of the UserID property.</param>
-        public static ItemShare CreateItemShare(global::System.Int32 itemShareID, global::System.Int32 itemID, global::System.Int32 userID)
+        /// <param name="listShareID">Initial value of the ListShareID property.</param>
+        public static ItemExclusion CreateItemExclusion(global::System.Int32 itemExclusionID, global::System.Int32 itemID, global::System.Int32 listShareID)
         {
-            ItemShare itemShare = new ItemShare();
-            itemShare.ItemShareID = itemShareID;
-            itemShare.ItemID = itemID;
-            itemShare.UserID = userID;
-            return itemShare;
+            ItemExclusion itemExclusion = new ItemExclusion();
+            itemExclusion.ItemExclusionID = itemExclusionID;
+            itemExclusion.ItemID = itemID;
+            itemExclusion.ListShareID = listShareID;
+            return itemExclusion;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -938,27 +834,27 @@ namespace GyftoList.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 ItemShareID
+        public global::System.Int32 ItemExclusionID
         {
             get
             {
-                return _ItemShareID;
+                return _ItemExclusionID;
             }
             set
             {
-                if (_ItemShareID != value)
+                if (_ItemExclusionID != value)
                 {
-                    OnItemShareIDChanging(value);
-                    ReportPropertyChanging("ItemShareID");
-                    _ItemShareID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ItemShareID");
-                    OnItemShareIDChanged();
+                    OnItemExclusionIDChanging(value);
+                    ReportPropertyChanging("ItemExclusionID");
+                    _ItemExclusionID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ItemExclusionID");
+                    OnItemExclusionIDChanged();
                 }
             }
         }
-        private global::System.Int32 _ItemShareID;
-        partial void OnItemShareIDChanging(global::System.Int32 value);
-        partial void OnItemShareIDChanged();
+        private global::System.Int32 _ItemExclusionID;
+        partial void OnItemExclusionIDChanging(global::System.Int32 value);
+        partial void OnItemExclusionIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -992,27 +888,27 @@ namespace GyftoList.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 UserID
+        public global::System.Int32 ListShareID
         {
             get
             {
-                return _UserID;
+                return _ListShareID;
             }
             set
             {
-                if (_UserID != value)
+                if (_ListShareID != value)
                 {
-                    OnUserIDChanging(value);
-                    ReportPropertyChanging("UserID");
-                    _UserID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("UserID");
-                    OnUserIDChanged();
+                    OnListShareIDChanging(value);
+                    ReportPropertyChanging("ListShareID");
+                    _ListShareID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ListShareID");
+                    OnListShareIDChanged();
                 }
             }
         }
-        private global::System.Int32 _UserID;
-        partial void OnUserIDChanging(global::System.Int32 value);
-        partial void OnUserIDChanged();
+        private global::System.Int32 _ListShareID;
+        partial void OnListShareIDChanging(global::System.Int32 value);
+        partial void OnListShareIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1039,6 +935,7 @@ namespace GyftoList.Data
         partial void OnCreateDateChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1048,16 +945,16 @@ namespace GyftoList.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemShare_Item", "Item")]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemExclusion_Item", "Item")]
         public Item Item
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemShare_Item", "Item").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemExclusion_Item", "Item").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemShare_Item", "Item").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemExclusion_Item", "Item").Value = value;
             }
         }
         /// <summary>
@@ -1069,195 +966,19 @@ namespace GyftoList.Data
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemShare_Item", "Item");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemExclusion_Item", "Item");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("GyftoListModel.FK_ItemShare_Item", "Item", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("GyftoListModel.FK_ItemExclusion_Item", "Item", value);
                 }
             }
         }
 
         #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="ItemTag")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class ItemTag : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new ItemTag object.
-        /// </summary>
-        /// <param name="itemTagID">Initial value of the ItemTagID property.</param>
-        /// <param name="itemID">Initial value of the ItemID property.</param>
-        /// <param name="title">Initial value of the Title property.</param>
-        /// <param name="createDate">Initial value of the CreateDate property.</param>
-        public static ItemTag CreateItemTag(global::System.Int32 itemTagID, global::System.Int32 itemID, global::System.String title, global::System.DateTime createDate)
-        {
-            ItemTag itemTag = new ItemTag();
-            itemTag.ItemTagID = itemTagID;
-            itemTag.ItemID = itemID;
-            itemTag.Title = title;
-            itemTag.CreateDate = createDate;
-            return itemTag;
-        }
 
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ItemTagID
-        {
-            get
-            {
-                return _ItemTagID;
-            }
-            set
-            {
-                if (_ItemTagID != value)
-                {
-                    OnItemTagIDChanging(value);
-                    ReportPropertyChanging("ItemTagID");
-                    _ItemTagID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ItemTagID");
-                    OnItemTagIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ItemTagID;
-        partial void OnItemTagIDChanging(global::System.Int32 value);
-        partial void OnItemTagIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ItemID
-        {
-            get
-            {
-                return _ItemID;
-            }
-            set
-            {
-                if (_ItemID != value)
-                {
-                    OnItemIDChanging(value);
-                    ReportPropertyChanging("ItemID");
-                    _ItemID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ItemID");
-                    OnItemIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ItemID;
-        partial void OnItemIDChanging(global::System.Int32 value);
-        partial void OnItemIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Title
-        {
-            get
-            {
-                return _Title;
-            }
-            set
-            {
-                OnTitleChanging(value);
-                ReportPropertyChanging("Title");
-                _Title = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Title");
-                OnTitleChanged();
-            }
-        }
-        private global::System.String _Title;
-        partial void OnTitleChanging(global::System.String value);
-        partial void OnTitleChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime CreateDate
-        {
-            get
-            {
-                return _CreateDate;
-            }
-            set
-            {
-                OnCreateDateChanging(value);
-                ReportPropertyChanging("CreateDate");
-                _CreateDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CreateDate");
-                OnCreateDateChanged();
-            }
-        }
-        private global::System.DateTime _CreateDate;
-        partial void OnCreateDateChanging(global::System.DateTime value);
-        partial void OnCreateDateChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemTag_Item", "Item")]
-        public Item Item
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemTag_Item", "Item").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemTag_Item", "Item").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Item> ItemReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemTag_Item", "Item");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("GyftoListModel.FK_ItemTag_Item", "Item", value);
-                }
-            }
-        }
-
-        #endregion
     }
     
     /// <summary>
@@ -1284,6 +1005,7 @@ namespace GyftoList.Data
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1458,6 +1180,7 @@ namespace GyftoList.Data
         partial void OnCreateDateChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1467,18 +1190,56 @@ namespace GyftoList.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListItemOrder_List", "ListItemOrder")]
-        public EntityCollection<ListItemOrder> ListItemOrders
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_Item_List", "Item")]
+        public EntityCollection<Item> Items
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ListItemOrder>("GyftoListModel.FK_ListItemOrder_List", "ListItemOrder");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Item>("GyftoListModel.FK_Item_List", "Item");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ListItemOrder>("GyftoListModel.FK_ListItemOrder_List", "ListItemOrder", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Item>("GyftoListModel.FK_Item_List", "Item", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_List_User", "User")]
+        public User User
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_List_User", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_List_User", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_List_User", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("GyftoListModel.FK_List_User", "User", value);
                 }
             }
         }
@@ -1506,250 +1267,7 @@ namespace GyftoList.Data
         }
 
         #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="ListItemOrder")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class ListItemOrder : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new ListItemOrder object.
-        /// </summary>
-        /// <param name="listItemOrderID">Initial value of the ListItemOrderID property.</param>
-        /// <param name="listID">Initial value of the ListID property.</param>
-        /// <param name="itemID">Initial value of the ItemID property.</param>
-        /// <param name="ordinal">Initial value of the Ordinal property.</param>
-        /// <param name="createDate">Initial value of the CreateDate property.</param>
-        public static ListItemOrder CreateListItemOrder(global::System.Int32 listItemOrderID, global::System.Int32 listID, global::System.Int32 itemID, global::System.Int32 ordinal, global::System.DateTime createDate)
-        {
-            ListItemOrder listItemOrder = new ListItemOrder();
-            listItemOrder.ListItemOrderID = listItemOrderID;
-            listItemOrder.ListID = listID;
-            listItemOrder.ItemID = itemID;
-            listItemOrder.Ordinal = ordinal;
-            listItemOrder.CreateDate = createDate;
-            return listItemOrder;
-        }
 
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ListItemOrderID
-        {
-            get
-            {
-                return _ListItemOrderID;
-            }
-            set
-            {
-                if (_ListItemOrderID != value)
-                {
-                    OnListItemOrderIDChanging(value);
-                    ReportPropertyChanging("ListItemOrderID");
-                    _ListItemOrderID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ListItemOrderID");
-                    OnListItemOrderIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ListItemOrderID;
-        partial void OnListItemOrderIDChanging(global::System.Int32 value);
-        partial void OnListItemOrderIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ListID
-        {
-            get
-            {
-                return _ListID;
-            }
-            set
-            {
-                if (_ListID != value)
-                {
-                    OnListIDChanging(value);
-                    ReportPropertyChanging("ListID");
-                    _ListID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ListID");
-                    OnListIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ListID;
-        partial void OnListIDChanging(global::System.Int32 value);
-        partial void OnListIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ItemID
-        {
-            get
-            {
-                return _ItemID;
-            }
-            set
-            {
-                if (_ItemID != value)
-                {
-                    OnItemIDChanging(value);
-                    ReportPropertyChanging("ItemID");
-                    _ItemID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ItemID");
-                    OnItemIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ItemID;
-        partial void OnItemIDChanging(global::System.Int32 value);
-        partial void OnItemIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Ordinal
-        {
-            get
-            {
-                return _Ordinal;
-            }
-            set
-            {
-                OnOrdinalChanging(value);
-                ReportPropertyChanging("Ordinal");
-                _Ordinal = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Ordinal");
-                OnOrdinalChanged();
-            }
-        }
-        private global::System.Int32 _Ordinal;
-        partial void OnOrdinalChanging(global::System.Int32 value);
-        partial void OnOrdinalChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime CreateDate
-        {
-            get
-            {
-                return _CreateDate;
-            }
-            set
-            {
-                OnCreateDateChanging(value);
-                ReportPropertyChanging("CreateDate");
-                _CreateDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("CreateDate");
-                OnCreateDateChanged();
-            }
-        }
-        private global::System.DateTime _CreateDate;
-        partial void OnCreateDateChanging(global::System.DateTime value);
-        partial void OnCreateDateChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListItemOrder_Item", "Item")]
-        public Item Item
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ListItemOrder_Item", "Item").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ListItemOrder_Item", "Item").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Item> ItemReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ListItemOrder_Item", "Item");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("GyftoListModel.FK_ListItemOrder_Item", "Item", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListItemOrder_List", "List")]
-        public List List
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<List>("GyftoListModel.FK_ListItemOrder_List", "List").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<List>("GyftoListModel.FK_ListItemOrder_List", "List").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<List> ListReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<List>("GyftoListModel.FK_ListItemOrder_List", "List");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<List>("GyftoListModel.FK_ListItemOrder_List", "List", value);
-                }
-            }
-        }
-
-        #endregion
     }
     
     /// <summary>
@@ -1767,21 +1285,24 @@ namespace GyftoList.Data
         /// </summary>
         /// <param name="listShareID">Initial value of the ListShareID property.</param>
         /// <param name="listID">Initial value of the ListID property.</param>
-        /// <param name="ownerID">Initial value of the OwnerID property.</param>
+        /// <param name="consumerID">Initial value of the ConsumerID property.</param>
         /// <param name="publicKey">Initial value of the PublicKey property.</param>
         /// <param name="createDate">Initial value of the CreateDate property.</param>
-        public static ListShare CreateListShare(global::System.Int32 listShareID, global::System.Int32 listID, global::System.Int32 ownerID, global::System.String publicKey, global::System.DateTime createDate)
+        /// <param name="ownerID">Initial value of the OwnerID property.</param>
+        public static ListShare CreateListShare(global::System.Int32 listShareID, global::System.Int32 listID, global::System.Int32 consumerID, global::System.String publicKey, global::System.DateTime createDate, global::System.Int32 ownerID)
         {
             ListShare listShare = new ListShare();
             listShare.ListShareID = listShareID;
             listShare.ListID = listID;
-            listShare.OwnerID = ownerID;
+            listShare.ConsumerID = consumerID;
             listShare.PublicKey = publicKey;
             listShare.CreateDate = createDate;
+            listShare.OwnerID = ownerID;
             return listShare;
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1843,27 +1364,27 @@ namespace GyftoList.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 OwnerID
+        public global::System.Int32 ConsumerID
         {
             get
             {
-                return _OwnerID;
+                return _ConsumerID;
             }
             set
             {
-                if (_OwnerID != value)
+                if (_ConsumerID != value)
                 {
-                    OnOwnerIDChanging(value);
-                    ReportPropertyChanging("OwnerID");
-                    _OwnerID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("OwnerID");
-                    OnOwnerIDChanged();
+                    OnConsumerIDChanging(value);
+                    ReportPropertyChanging("ConsumerID");
+                    _ConsumerID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ConsumerID");
+                    OnConsumerIDChanged();
                 }
             }
         }
-        private global::System.Int32 _OwnerID;
-        partial void OnOwnerIDChanging(global::System.Int32 value);
-        partial void OnOwnerIDChanged();
+        private global::System.Int32 _ConsumerID;
+        partial void OnConsumerIDChanging(global::System.Int32 value);
+        partial void OnConsumerIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1912,8 +1433,36 @@ namespace GyftoList.Data
         private global::System.DateTime _CreateDate;
         partial void OnCreateDateChanging(global::System.DateTime value);
         partial void OnCreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 OwnerID
+        {
+            get
+            {
+                return _OwnerID;
+            }
+            set
+            {
+                if (_OwnerID != value)
+                {
+                    OnOwnerIDChanging(value);
+                    ReportPropertyChanging("OwnerID");
+                    _OwnerID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("OwnerID");
+                    OnOwnerIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _OwnerID;
+        partial void OnOwnerIDChanging(global::System.Int32 value);
+        partial void OnOwnerIDChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1961,16 +1510,16 @@ namespace GyftoList.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListShare_User", "User")]
-        public User User
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListShare_UserConsumer", "User")]
+        public User UserConsumer
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_User", "User").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_UserConsumer", "User").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_User", "User").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_UserConsumer", "User").Value = value;
             }
         }
         /// <summary>
@@ -1978,22 +1527,61 @@ namespace GyftoList.Data
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<User> UserReference
+        public EntityReference<User> UserConsumerReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_User", "User");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_UserConsumer", "User");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("GyftoListModel.FK_ListShare_User", "User", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("GyftoListModel.FK_ListShare_UserConsumer", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListShare_UserOwner", "User")]
+        public User UserOwner
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_UserOwner", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_UserOwner", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserOwnerReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_ListShare_UserOwner", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("GyftoListModel.FK_ListShare_UserOwner", "User", value);
                 }
             }
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -2018,6 +1606,7 @@ namespace GyftoList.Data
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -2166,8 +1755,33 @@ namespace GyftoList.Data
         private Nullable<global::System.DateTime> _CreatedDate;
         partial void OnCreatedDateChanging(Nullable<global::System.DateTime> value);
         partial void OnCreatedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String AvatarURL
+        {
+            get
+            {
+                return _AvatarURL;
+            }
+            set
+            {
+                OnAvatarURLChanging(value);
+                ReportPropertyChanging("AvatarURL");
+                _AvatarURL = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("AvatarURL");
+                OnAvatarURLChanged();
+            }
+        }
+        private global::System.String _AvatarURL;
+        partial void OnAvatarURLChanging(global::System.String value);
+        partial void OnAvatarURLChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -2199,25 +1813,71 @@ namespace GyftoList.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListShare_User", "ListShare")]
-        public EntityCollection<ListShare> ListShares
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_List_User", "List")]
+        public EntityCollection<List> Lists
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ListShare>("GyftoListModel.FK_ListShare_User", "ListShare");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<List>("GyftoListModel.FK_List_User", "List");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ListShare>("GyftoListModel.FK_ListShare_User", "ListShare", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<List>("GyftoListModel.FK_List_User", "List", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListShare_UserConsumer", "ListShare")]
+        public EntityCollection<ListShare> ListShares_UserConsumer
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ListShare>("GyftoListModel.FK_ListShare_UserConsumer", "ListShare");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ListShare>("GyftoListModel.FK_ListShare_UserConsumer", "ListShare", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ListShare_UserOwner", "ListShare")]
+        public EntityCollection<ListShare> ListShares_UserOwner
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ListShare>("GyftoListModel.FK_ListShare_UserOwner", "ListShare");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ListShare>("GyftoListModel.FK_ListShare_UserOwner", "ListShare", value);
                 }
             }
         }
 
         #endregion
+
     }
 
     #endregion
+
     
 }

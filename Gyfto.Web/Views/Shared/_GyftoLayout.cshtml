@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title on Gyfto</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript" src="//use.typekit.net/ita4bwu.js"></script>
+    <script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+</head>
+<body>
+    <H1 class="topTitle">Gyfto</H1>
+    <div class="mainContentAreaContainer">
+        <div class="mainContentArea">
+            <div class="avatar">
+                <img src="http://profile.ak.fbcdn.net/hprofile-ak-ash4/203134_543098775_341073404_q.jpg" alt="" />
+            </div>
+            <div class="renderBody">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+</body>
+</html>

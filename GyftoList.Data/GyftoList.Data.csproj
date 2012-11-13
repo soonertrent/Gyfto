@@ -62,6 +62,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GyftoList.Util\GyftoList.Util.csproj">
+      <Project>{e911f682-e65c-48a5-975c-60a3785805a9}</Project>
+      <Name>GyftoList.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,0 +1,49 @@
+﻿@model GyftoList.API.Translations.API_ListShare
+
+@{
+    Layout = "~/Views/Shared/_GyftoLayout.cshtml";
+    ViewBag.Title = string.Format("{0} by {1}", @Model.SharedList.ListName, @Model.OwnerDisplayName);
+}
+<div class="sectionTitle">
+    <h3>@ViewBag.Greeting there!</h3>
+</div>
+<p class="gyftoDescription">
+Gyfto is a social, gift list service - born and raised by technology to help you make lists of stuff you want and want people to get you.  If 
+you're already a member, <a href="/">Sign In</a>; otherwise, feel free to <a href="/">Sign Up</a> to get started creating your own
+Gyfto Lists today!<br/>
+<br />
+Below is a list that has been shared for you. Enjoy!
+</p>
+<div class="sectionTitle">
+    <h3>@Model.SharedList.ListName</h3>
+    <p class="byLine">by  @Model.OwnerDisplayName</p>
+    <p class="listDescription">@Model.SharedList.Description</p>
+    <br />
+    <div>
+        <ul>
+            <li>1 List</li>
+            <li>@Model.SharedList.Items.Count.ToString() items</li>
+            <li>Average $@Math.Round(Model.SharedList.Items.Average(i => i.Cost).Value,2).ToString()</li>
+        </ul>
+    </div>
+</div>
+<br />
+<br />
+<div class="listItemsShared">
+    <ul>
+        @{ var num = 1; }
+        @foreach (var i in @Model.SharedList.Items)
+        { 
+            <li id="@i.PublicKey">
+                <div class="listItemSharedNumber">@num.ToString())</div>
+                <div class="listItemSharedImage"><a href="@i.ItemURL"  target="_blank"><img src="@i.ImageURL" width="50px" alt="@i.Description" /></a></div>
+                <div class="listItemSharedTitle"><a href="@i.ItemURL"  target="_blank">@i.Title</a></div>
+                <div class="listItemSharedDescription">@i.Description</div>
+                <div class="listItemSharedCost">@i.Cost.ToString()</div>
+            </li>
+            { num = num + 1;    }
+        }
+    </ul>
+</div>
+
+

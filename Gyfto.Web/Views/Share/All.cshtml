@@ -1,0 +1,15 @@
+﻿@model List<GyftoList.API.Translations.API_ListShare>
+
+@{
+    Layout = "~/Views/Shared/_GyftoLayout.cshtml";
+}
+<div class="pageTitle">Current Gyfto Shares</div>
+<ul>
+    @foreach (var i in Model)
+    {
+        <li>
+            <a href="/share/list/@i.PublicKey">@i.SharedList.ListName</a> <br />
+            <b>Owner:</b> @i.OwnerDisplayName | <b>Consumer:</b> @i.ConsumerDisplayName
+        </li>
+    }
+</ul>

@@ -52,10 +52,6 @@
       <Project>{E083832F-9D02-4DCF-A192-9054266ECF6E}</Project>
       <Name>GyftoList.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GyftoList.Services\GyftoList.Services.csproj">
-      <Project>{67F1817D-248B-48FA-9660-044A408D9B05}</Project>
-      <Name>GyftoList.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GyftoList.Util\GyftoList.Util.csproj">
       <Project>{E911F682-E65C-48A5-975C-60A3785805A9}</Project>
       <Name>GyftoList.Util</Name>
