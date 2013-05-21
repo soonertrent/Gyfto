@@ -21,7 +21,6 @@ namespace GyftoList.API.Controllers
 
         public ListController()
         {
-            //_dataAccess = new DataMethods("GyftoListEntities");
             _dataAccess = new DataMethods();
         }
 

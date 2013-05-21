@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using GyftoList.Data;
+using GyftoList.API.Translations;
 
 namespace GyftoList.API.Controllers
 {
@@ -25,15 +26,20 @@ namespace GyftoList.API.Controllers
         }
 
         // GET api/ListItem/5
-        public Item GetItem(string id)
+        public API_ListItem GetItem(string id)
         {
+            API_ListItem returnItem = new API_ListItem();
             Item item = db.Items.Single(i => i.PublicKey == id);
             if (item == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             }
+            else
+            {
+                returnItem = returnItem.ConvertToAPI_ListItem(item, item.List.PublicKey);
+            }
 
-            return item;
+            return returnItem;
         }
 
         // PUT api/ListItem/5

@@ -1,5 +1,5 @@
 ﻿html {
-    background-color: #FAF9F4;
+    background-color: #FAF9F4;/*#EDEDED;*//*#EFEBE3;*/
     margin: 0;
     padding: 0;
     /*museo slab example: http://www.ruawebdesign.com/2011/10/google-buttons-for-all/*/
@@ -7,7 +7,7 @@
     font-style: normal;
 }
 
-/*a:link, a:visited 
+a:link, a:visited 
 {
     color:#e96700;
     text-decoration: none;
@@ -19,7 +19,7 @@ a:hover, a:active
     color:#000;
     text-decoration:underline;
     border-bottom:none;
-}*/
+}
 
 
 .mainContentAreaContainer
@@ -60,104 +60,61 @@ a:hover, a:active
 .mainContentArea
 {
     margin:auto;
-    width:700px;
+    max-width:900px;
     min-height:800px;
     padding: 40px;
-    padding-top:100px;
-    /*border-style:dotted;
-    border-color:black;*/
+    
 }
 
 body {
-    /*background-color: #EDEDED;*/
+    background-color: #EDEDED;
     /*background-color: #FAF9F4;*/
     margin: 0;
     padding: 0;
 }
 
-.topSection
+.topTitle
 {
-    margin:0;
-    padding:0;
-    width:100%;
-    background-color:white;
-    overflow: hidden;
-    max-height:68px;
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    border-bottom-color:#EEEDEB;
-    border-bottom-width:thin;
-    border-bottom-style:solid;
-}
-
-.topSectionContentArea
-{
-    width:600px;
+    color:#e96700;
+    padding:10px 0px 0px 0px;
+    max-width:900px;
     margin:auto;
-    padding:0px 0px 0px 0px;
-    position:static;
-}
-
-.topSectionTitle
-{
-    color:#ED7D31;
     font-weight:500;
-    font-size:38px; 
-    top:0;
-    left:0;
-    float:left;
+    font-size:46px; 
+    line-height: 66px;
 }
 
-.topSection_UserContext
+
+.avatarDiv
 {
-    float:right;
-    overflow:visible;
+    z-index:2;
+    margin-top:-45px;
+    margin-left:1200px;
+    display:inline-block;
+    padding:0px;
+    font-weight:bold;
 }
-
-.topSection_ListMetrics
-{
-        margin-right:10px;
-        display: inline;
-        min-width: 20px;
-        text-align: center;
-        color: #FFFAFA;
-        font-size: 11px;
-        font-weight: bold;
-        height: 24px;
-        padding: 0 18px;
-        line-height: 24px;
-        -webkit-border-radius: 2px;
-        -moz-border-radius: 2px;
-        border-radius: 2px;
-        border: 1px solid gainsboro;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        background-color: #ED7D31;
-        float:left;
-}
-
-    .topSection_ListMetrics a:link, a:active, a:visited
-    {
-        color:white;
-        font-weight: bold;
-        text-decoration:none;
-    }
-
-    .topSection_ListMetrics a:hover
-    {
-        text-decoration:underline;
-        color:white;
-        font-weight: bold;
-    }
-
 /*All the avatar stuff comes from here: http://colmjude.com/blog/css-only-rounded-images*/
+.avatar {
+        border: 1px solid #EDEDED;
+        height: 60px;
+        width: 60px;
+        display: block;
+        border-radius: 30px;
+        box-shadow: 1px 1px 1px rgba(0,0,0, 0.1);
+        -webkit-box-shadow: 1px 1px 1px rgba(0,0,0, 0.1);
+        -moz-box-shadow: 1px 1px 1px rgba(0,0,0, 0.1);
+}
+
+.avatar {
+        background: rgba(0, 0, 0, 0.2);
+}
+
 .avatar img {
-        border-radius: 4px;
-        height: 40px;
-        margin: 2px; /* centers the image in the parent element */
-        float:left;
-        display:inline;
+        border-radius: 25px;
+        width: 50px;
+        height: 50px;
+        margin: 6px; /* centers the image in the parent element */
 }
 
 .pageTitle
@@ -213,34 +170,6 @@ body {
         list-style-type: none;
     }
 
-.sectionToolbar
-{
-    width:500px;
-    background-color:white;
-    border-color:#EEEDEB;
-    border-width:2px;
-    border-style:solid;
-    padding:2px;
-}
-    .sectionToolbar ul
-    {
-        display: inline;
-        margin-left:-20px;
-    }
-
-    .sectionToolbar li
-    {
-        display:inline-block;
-        list-style-type:none;
-        padding:2px 4px;
-    }
-
-    .sectionToolbar li:hover,a:active
-    {
-        /*color:#ED7D31;*/
-        background-color:#ED7D31;
-        color:white;
-    }
 
 .pageTitleDetailsBox
 {
@@ -316,6 +245,12 @@ body {
     -o-transition: all 0.0s;
     transition: all 0.0s;
     background-color: #FF5500;
+    /*background-image: -webkit-gradient(linear,left top,left bottom,from(#EB6A00),to(#FF8929));
+    background-image: -webkit-linear-gradient(top,#EB6A00,#FF8929);
+    background-image: -moz-linear-gradient(top,#EB6A00,#FF8929);
+    background-image: -ms-linear-gradient(top,#EB6A00,#FF8929);
+    background-image: -o-linear-gradient(top,#EB6A00,#FF8929);
+    background-image: linear-gradient(top,#EB6A00,#FF8929);*/
     background-image: -webkit-gradient(linear,left top,left bottom,from(#EB6A00),to(#EB6A00));
     background-image: -webkit-linear-gradient(top,#EB6A00,#EB6A00);
     background-image: -moz-linear-gradient(top,#EB6A00,#EB6A00);
@@ -330,13 +265,13 @@ body {
 .renderBody
 {
     margin-left:120px;
-    /*margin-top:-100px;*/
+    margin-top:-100px;
     z-index:2;
 }
 
 .listContainer
 {
-    width:600px;
+    width:800px;
     margin:0px -10px;
     margin-bottom: 20px;
 }
@@ -344,6 +279,21 @@ body {
     .listContainer input[type=checkbox]
     {
         margin-left:-22px;
+    }
+
+    .listContainerSizeIndicator
+    {
+        border: 1px solid red;
+        background-color: red; 
+        height: 20px;
+        width: 20px;
+        display: block;
+        border-radius: 10px;
+        box-shadow: 1px 1px 1px rgba(0,0,0, 0.1);
+        -webkit-box-shadow: 1px 1px 1px rgba(0,0,0, 0.1);
+        -moz-box-shadow: 1px 1px 1px rgba(0,0,0, 0.1);
+        z-index:2;
+        margin:-60px;
     }
 
 .listContainerBlock
@@ -357,11 +307,6 @@ body {
     -khtml-border-radius: 6px;
     border-radius: 6px;
     margin-top:-33px;
-    background-color:white;
-    border-color:#EEEDEB;
-    border-width:2px;
-    border-style:solid;
-
 }
     .listContainerBlock H3
     {
@@ -371,12 +316,6 @@ body {
         margin:4px 0px;
         display:inline-block;
     }
-
-        .listContainerBlock H3 a:link, a:active, a:hover, a:visited
-        {
-            text-decoration:underline;
-            color:black;
-        }
 
     .listContainerBlock ul
     {
@@ -411,6 +350,7 @@ body {
 
     .listContainerBlock:hover
     {
+        /*drop shadow*/
         -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
         -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.4);
         box-shadow: 0px 0px 5px rgba(0,0,0,0.4);

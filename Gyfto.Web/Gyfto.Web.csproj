@@ -176,7 +176,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Copy of Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -231,6 +230,9 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\_backup\Copy of Site.css" />
+    <Content Include="Content\_backup\Site.css" />
+    <Content Include="Content\_backup\Site2.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
@@ -294,9 +296,12 @@
     <Content Include="Views\List\Details.cshtml" />
     <Content Include="Views\Shared\_GyftoPreLaunch.cshtml" />
     <Content Include="Views\Share\All.cshtml" />
+    <Content Include="Views\List\UserLists.cshtml" />
+    <Content Include="Views\Shared\_GyftoLayout2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Favicon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -327,7 +332,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>63990</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:61399/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

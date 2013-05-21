@@ -12,29 +12,40 @@ namespace GyftoList.API.Controllers
     {
         private DataMethods _dataMethods = new DataMethods();
 
-        // PUT api/ListItemActive/5
-        //TODO: Not sure how this will work
-        public HttpResponseMessage PutItem(string id, bool active)
+        // POST api/ListItemActive/5
+        public Item GetItem(string id)
         {
-            HttpResponseMessage rMsg = new HttpResponseMessage();
+            Item listItem = null;
             try
             {
-                var rc = _dataMethods.ListItem_UpdateActive(id, active);
-                if (!rc)
+                listItem = _dataMethods.ListItem_GetByPublicKey(id);
+
+                if (listItem == null)
                 {
-                    rMsg = Request.CreateResponse(HttpStatusCode.NotFound);
+                    throw new Exception(string.Format("List Item with Public Key '{0}' not found.",id));
                 }
                 else
                 {
-                    rMsg = Request.CreateResponse(HttpStatusCode.OK, id);
+                    bool? activeFl = false;
+                    if (Convert.ToBoolean(listItem.Active))
+                    {
+                        activeFl = false;
+                    }
+                    else
+                    {
+                        activeFl = true;
+                    }
+
+                    listItem = _dataMethods.ListItem_UpdateActive(listItem, Convert.ToBoolean(activeFl));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                rMsg = Request.CreateResponse(HttpStatusCode.NotFound);
+                throw new Exception(ex.InnerException.ToString());
             }
 
-            return rMsg;
+            return listItem;
         }
+
     }
 }

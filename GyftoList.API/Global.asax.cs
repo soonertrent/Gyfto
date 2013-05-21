@@ -25,6 +25,9 @@ namespace GyftoList.API
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            //var config = GlobalConfiguration.Configuration;
+            //config.Formatters.Insert(0, new GyftoList.API.CustomFormatter.JsonpFormatter());
+            GlobalConfiguration.Configuration.Formatters.Insert(0, new GyftoList.API.CustomFormatter.JsonpFormatter());
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
         }
     }

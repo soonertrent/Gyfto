@@ -16,13 +16,13 @@ namespace GyftoList.ConsoleAppTester
 
         static void Main(string[] args)
         {
-            var utilSecurity = new Util.Security();
-            var utilUser = new Util.User();
+            //var utilSecurity = new Util.Security();
+            //var utilUser = new Util.User();
 
-            var kelliShare = utilUser.GenerateUserPublicKey();
-            var momShare = utilUser.GenerateUserPublicKey();
-            var sharonShare = utilUser.GenerateUserPublicKey();
-            var amandaShare = utilUser.GenerateUserPublicKey();
+            //var kelliShare = utilUser.GenerateUserPublicKey();
+            //var momShare = utilUser.GenerateUserPublicKey();
+            //var sharonShare = utilUser.GenerateUserPublicKey();
+            //var amandaShare = utilUser.GenerateUserPublicKey();
 
             //var salt = Convert.ToString(54);
             //var password = "stussy7";
@@ -40,9 +40,39 @@ namespace GyftoList.ConsoleAppTester
             //var count = QueryEmailAddresses();
             //var user = CreateUserAccount();
 
-            Item newItem = CreateListItem();
+            //Item newItem = CreateListItem();
+            //List newList = CreateList();
+            //var newListShare = CreateListShare();
             //UpdateListItemOrdinal("d8d4c3d0", 14);
 
+            //var list = GetListByPublicKey("49c8f932");
+            //var firstItem = list.Items.OrderBy(i => i.Ordinal).First();
+
+            SeeAllLists();
+
+        }
+
+        static private List GetListByPublicKey(string publicKey)
+        {
+            gData = new DataMethods();
+            return gData.List_GetListByPublicKey(publicKey);
+        }
+
+        static private void SeeAllLists()
+        {
+            gData = new DataMethods();
+            foreach(var l in gData.List_GetAllLists())
+            {
+                Console.WriteLine(string.Format("{0} ({1}) with {2} items.",l.Title,l.PublicKey, l.Items.Count.ToString()));
+            }
+
+            Console.Read();
+        }
+
+        static private ListShare CreateListShare()
+        {
+            gData = new DataMethods();
+            return gData.ListShare_Create("c6e4d6de", "15294119");
         }
 
         static private void UpdateListItemOrdinal(string publicKey, int newOrdinal)
@@ -51,16 +81,26 @@ namespace GyftoList.ConsoleAppTester
             var rc = gData.ListItem_ReorderItem(publicKey, newOrdinal);
         }
 
+        static private List CreateList()
+        {
+            gData = new DataMethods();
+            // c6e4d6de
+            return gData.List_CreateList("Espresso Machines", "Different types/brands of Espresso machines by amount", "49c8f932");
+        }
+
         static private Item CreateListItem()
         {
             gData = new DataMethods();
 
-            string listPublicKey = "49c8f932";
-            string itemTitle = "iPad Mini";
-            string itemDescription = "Black, 16gb";
-            string itemURL = "http://store.apple.com/us/buy/home/shop_ipad/family/ipad_mini";
-            string itemImageURL = "http://store.storeimages.cdn-apple.com/2979/as-images.apple.com/is/image/AppleInc/2012-ipadmini-step1-black?wid=150&hei=195&fmt=png-alpha&qlt=95";
-            decimal itemCost = 329.00m;
+            string listPublicKey = "49c8f932"; // MAIN XMAS LIST
+            //string listPublicKey = "c6e4d6de"; // STOCKING STUFFER LIST
+            //string listPublicKey = "9634ec5"; // KELLI'S LIST
+            //string listPublicKey = "1a292692"; // ESPRESSO MACHINES
+            string itemTitle = "Yeti Tundra 50 Cooler";
+            string itemDescription = "Crimson/White color";
+            string itemURL = "http://www.academy.com/webapp/wcs/stores/servlet/Product_10151_10051_520057_-1__?color=Crimson%2fWhite&N=363067182+4294954973";
+            string itemImageURL = "http://assets.academy.com/mgen/35/10221635.jpg?is=50,50";
+            decimal itemCost = 359.00m;
             int itemOrdinal = GetItemsForList(listPublicKey) + 1;
             
             return gData.ListItem_Create(listPublicKey, itemTitle, itemDescription, itemCost, itemOrdinal, itemImageURL, itemURL);

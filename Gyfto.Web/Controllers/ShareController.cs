@@ -27,7 +27,7 @@ namespace Gyfto.Web.Controllers
                 {
                     sharedList = gAPI.GetListShare(id);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     throw new Exception("Shared List not found");
                 }
@@ -46,11 +46,6 @@ namespace Gyfto.Web.Controllers
         {
             var gAPI = new ListShareController();
             return View(gAPI.GetListShares());
-
-            //List<API_ListShare> mockListShares = new List<API_ListShare>();
-            //mockListShares.Add(new API_ListShare { PublicKey = "1c89e969", SharedList = new API_List { ListName = "Christmas 2012", PublicKey = "2b73a917" }, ConsumerDisplayName = "Amanda W.", OwnerDisplayName = "Jason T." });
-
-            //return View(mockListShares);
         }
 
     }

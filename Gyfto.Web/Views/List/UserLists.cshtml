@@ -1,0 +1,82 @@
+﻿@model List<GyftoList.API.Translations.API_List>
+
+@{
+    Layout = "~/Views/Shared/_GyftoLayout2.cshtml";
+}
+
+@{
+    var totalItemCount = 0;
+    var totalShareCount = 0;
+    var totalItemDollarAmount = 0.00;
+    if(@Model != null)
+    {
+        foreach(var l in @Model)
+        {
+            foreach(var i in l.Items)
+            {
+                totalItemDollarAmount += Convert.ToDouble(i.Cost);    
+            }
+        
+            totalItemCount += l.Items.Count;
+            totalShareCount += l.ListShares.Count;
+        }
+
+        totalItemDollarAmount = Math.Round(totalItemDollarAmount/totalItemCount);
+    }
+}
+
+<a name="YourLists" />
+<div class="sectionTitle">
+    <h3>Your Lists</h3>
+    @*<div>
+        <ul>
+            <li>@Model.Count.ToString() lists</li>
+            <li>@totalItemCount.ToString() items</li>
+            <li>@totalShareCount.ToString() shares</li>
+            <li>Average $@totalItemDollarAmount.ToString()</li>
+        </ul>
+    </div>*@
+</div>
+<div class="sectionToolbar">
+    <div>
+        <ul>
+            <li><a href="#">Share</a></li>
+            <li><a href="#">Copy</a></li>
+            <li><a href="#">Delete</a></li>
+        </ul>
+    </div>
+</div>
+<br />
+@foreach(var list in Model)
+{
+<div class="listContainer">
+    <input type="checkbox" />
+    <div class="listContainerBlock">
+        <a href="/list/details/@list.PublicKey"><h3>@list.ListName</h3></a>
+        <div>
+            @if(list.Items.Count > 0)
+            {
+            <ul>
+                <li class="listContainerMetrics">@list.Items.Count.ToString() items</li>
+                <li class="listContainerMetrics">Average $@Math.Round(list.Items.Average(i => i.Cost).Value,2).ToString()</li>
+                <li class="listContainerMetrics">Shared @list.ListShares.Count.ToString() times</li>
+             </ul>
+            }
+        </div>
+        <p>@list.Description</p>
+    </div>
+</div>
+}
+
+<a name="YourShares" />
+<div class="sectionTitle">
+    <h3>SharedLists</h3>
+    <div>
+        <ul>
+            <li>14 lists</li>
+            <li>183 items</li>
+            <li>9 shares</li>
+            <li>Average $76</li>
+        </ul>
+    </div>
+</div>

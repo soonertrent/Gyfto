@@ -135,7 +135,9 @@
     <Compile Include="Controllers\ListItemController.cs" />
     <Compile Include="Controllers\ListShareController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserListController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="CustomFormatter\JasonpFormatter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -267,7 +269,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>63981</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:53386/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

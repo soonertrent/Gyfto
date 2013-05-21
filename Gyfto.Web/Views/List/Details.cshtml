@@ -1,77 +1,50 @@
-﻿@{
-    //ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_GyftoLayout.cshtml";
+﻿@model GyftoList.API.Translations.API_List
+
+@{
+    ViewBag.Title = Model.ListName;
+    Layout = "~/Views/Shared/_GyftoLayout2.cshtml";
 }
-<div class="sectionTitle">
-    <h3>Your Lists</h3>
-    <div>
-        <ul>
-            <li>2 lists</li>
-            <li>17 items</li>
-            <li>5 shares</li>
-            <li>Average $143</li>
-        </ul>
-    </div>
-</div>
-
-<div class="listContainer">
-    <input type="checkbox" />
-    <div class="listContainerBlock" onclick="javascript:alert('Christmas 2012');">
-        @*<div class="listContainerSizeIndicator"></div>*@
-
-        <h3>Christmas 2012</h3>
-        <div>
-            <ul>
-                <li class="listContainerMetrics">14 items</li>
-                <li class="listContainerMetrics">Average $98</li>
-                <li class="listContainerMetrics">Shared 5 times</li>
-             </ul>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris fringilla vehicula metus. Suspendisse venenatis consectetur luctus. Pellentesque habitant morbi tristique senectus et netus.</p>
-    </div>
-</div>
-
-<div class="listContainer">
-    <input type="checkbox" />
-    <div class="listContainerBlock">
-        @*<div class="listContainerSizeIndicator"></div>*@
-        <h3>For Kelli</h3>
-        <div>
-            <ul>
-                <li class="listContainerMetrics">3 items</li>
-                <li class="listContainerMetrics">Average $187</li>
-                <li class="listContainerMetrics">Shared 0 times</li>
-             </ul>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris fringilla vehicula metus. Suspendisse venenatis consectetur luctus. Pellentesque habitant morbi tristique senectus et netus.</p>
-    </div>
-</div>
-
-
-<div class="listContainer">
-    <input type="checkbox" />
-    <div class="listContainerBlock">
-        @*<div class="listContainerSizeIndicator"></div>*@
-        <h3>Birthday 2013</h3>
-        <div>
-            <ul>
-                <li class="listContainerMetrics">11 items</li>
-                <li class="listContainerMetrics">Average $49</li>
-                <li class="listContainerMetrics">Shared 7 times</li>
-             </ul>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris fringilla vehicula metus. Suspendisse venenatis consectetur luctus. Pellentesque habitant morbi tristique senectus et netus.</p>
-    </div>
-</div>
 
 <div class="sectionTitle">
-    <h3>Shared Lists</h3>
-    <div>
-        <ul>
-            <li>14 lists</li>
-            <li>183 items</li>
-            <li>9 shares</li>
-            <li>Average $76</li>
-        </ul>
+    <h3>@Model.ListName</h3>
+</div>
+@foreach(var i in Model.Items.Where(i => i.Active == true))
+  {
+
+<div class="listContainer" id="@i.PublicKey">
+    <input type="checkbox" />
+    <div class="listContainerBlock">
+        <h3>@i.Title</h3>
+        <p>@i.Description</p>
+        <a href="javascript:flagItem('@i.PublicKey');">Got this</a>
     </div>
 </div>
+  }
+
+<ul id="ulNonActiveItems">
+@foreach (var i in Model.Items.Where(i => i.Active == false))
+{
+    <li style="text-decoration:line-through">@i.Title</li>
+}
+</ul>
+
+
+<script lang="javascript" type="text/javascript">
+
+    function flagItem(itemPublicKey)
+    {
+        alert("About to POST");
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:53386/api/ListItemActive/' + itemPublicKey,
+            contentType: "application/json; charset=utf-8",
+            dataType: 'jsonp',
+            data: itemPublicKey,
+        })
+        .success(function (data) {
+            alert(data);
+
+        });
+    }
+
+</script>
