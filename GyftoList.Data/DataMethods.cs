@@ -96,6 +96,45 @@ namespace GyftoList.Data
         #region List
 
         /// <summary>
+        /// Creates a new Gyfto List
+        /// </summary>
+        /// <param name="listTitle"></param>
+        /// <param name="listDescription"></param>
+        /// <param name="userPublicKey"></param>
+        /// <returns></returns>
+        public List List_CreateList(string listTitle, string listDescription, string userPublicKey)
+        {
+            List newList = new List();
+            Util.User util = new Util.User();
+
+            newList.Active = true;
+            newList.CreateDate = DateTime.Now;
+            newList.Description = listDescription;
+            newList.Title = listTitle;
+            newList.User = User_GetUser(userPublicKey);
+            newList.PublicKey = util.GenerateUserPublicKey();
+
+            _gyftoListEntities.Lists.AddObject(newList);
+            _gyftoListEntities.SaveChanges();
+
+            return newList;
+        }
+
+        public bool List_DeleteList(string listPublicKey)
+        {
+            var list = List_GetListByPublicKey(listPublicKey);
+
+            //First, delete the items
+            foreach (var i in list.Items)
+            {
+                ListItem_Delete(i.PublicKey);
+            }
+
+            return true;
+
+        }
+
+        /// <summary>
         /// Gets all Lists by a given UserID
         /// </summary>
         /// <param name="id"></param>
@@ -105,7 +144,7 @@ namespace GyftoList.Data
             List<List> usrList;
             using (_gyftoListEntities = new GyftoListEntities())
             {
-                usrList = _gyftoListEntities.Lists.Where(l => l.UserID == id).ToList();
+                usrList = _gyftoListEntities.Lists.Include("Items").Include("User").Include("ListShares").Where(l => l.UserID == id).ToList();
             }
             return usrList;
         }
@@ -117,7 +156,17 @@ namespace GyftoList.Data
         /// <returns></returns>
         public List List_GetListByPublicKey(string publicKey)
         {
-            return _gyftoListEntities.Lists.Include("Items").Include("User").SingleOrDefault(l => l.PublicKey == publicKey);
+            return _gyftoListEntities.Lists.Include("Items").Include("User").Where(i => i.Items.Any(x => x.Active == false)).SingleOrDefault(l => l.PublicKey == publicKey);
+            
+        }
+
+        /// <summary>
+        /// Gets all current Gyfto Lists for all Users
+        /// </summary>
+        /// <returns></returns>
+        public List<List> List_GetAllLists()
+        {
+            return _gyftoListEntities.Lists.Include("User").Include("Items").ToList();
         }
 
         #endregion
@@ -198,29 +247,25 @@ namespace GyftoList.Data
         /// <param name="publicKey"></param>
         /// <param name="active"></param>
         /// <returns></returns>
-        public bool ListItem_UpdateActive(string publicKey, bool active)
+        public Item ListItem_UpdateActive(Item listItem, bool active)
         {
             var rc = false;
 
             try
             {
-                var item = _gyftoListEntities.Items.SingleOrDefault(i => i.PublicKey == publicKey);
-                item.Active = active;
-
-                _gyftoListEntities.Items.Attach(item);
-                _gyftoListEntities.ObjectStateManager.ChangeObjectState(item, EntityState.Modified);
-
-                _gyftoListEntities.SaveChanges();
-
+                if (listItem != null)
+                {
+                    listItem.Active = active;
+                    _gyftoListEntities.SaveChanges();
+                }
                 rc = true;
             }
             catch (Exception)
             {
-
                 throw;
             }
 
-            return rc;
+            return listItem;
         }
 
         public bool ListItem_ReorderItem(string publicKey, int newOrdinal)
@@ -263,11 +308,22 @@ namespace GyftoList.Data
         /// <summary>
         /// This returns all the Items for a given List
         /// </summary>
-        /// <param name="publicKey"></param>
+        /// <param name="listID">Internal List ID</param>
+        /// <param name="onlyActive">True = only get Active items</param>
         /// <returns></returns>
-        public List<Item> ListItem_GetAllByListID(int listID)
+        public List<Item> ListItem_GetAllByListID(int listID, bool onlyActive)
         {
-            return _gyftoListEntities.Items.Where(i => i.ListID == listID).ToList();
+            var rcItems = new List<Item>();
+            if (onlyActive)
+            { 
+                rcItems = _gyftoListEntities.Items.Where(i => i.ListID == listID && i.Active == true).ToList();
+            }
+            else
+            {
+                rcItems = _gyftoListEntities.Items.Where(i => i.ListID == listID).ToList();
+            }
+
+            return rcItems;
         }
 
         /// <summary>
@@ -299,13 +355,13 @@ namespace GyftoList.Data
         public ListShare ListShare_GetByPublicKeyWithAssociatedItems(string publicKey)
         {
             var rcLS = new ListShare();
-            rcLS = _gyftoListEntities.ListShares.Include("List").Include("UserOwner").Include("UserConsumer").SingleOrDefault(ls => ls.PublicKey == publicKey); 
+            rcLS = _gyftoListEntities.ListShares.Include("List").Include("UserOwner").Include("UserConsumer").SingleOrDefault(ls => ls.PublicKey == publicKey);
             
             // Need to filter out any items not available for the current ListShare
             if (rcLS != null)
             {
                 rcLS.List.Items.Clear();
-                var filteredItems = ListItem_GetAllByListID(rcLS.ListID).Where(i => !ItemExclusion_GetAllByListShareID(rcLS.ListShareID).Any(ie => ie.ItemID == i.ItemID));
+                var filteredItems = ListItem_GetAllByListID(rcLS.ListID, true).Where(i => !ItemExclusion_GetAllByListShareID(rcLS.ListShareID).Any(ie => ie.ItemID == i.ItemID));
                 var count = filteredItems.Count();
 
                 foreach (var li in filteredItems)
@@ -317,7 +373,45 @@ namespace GyftoList.Data
             return rcLS;
         }
 
-        
+        /// <summary>
+        /// Creates a new ListShare for the provided List and Consumer
+        /// </summary>
+        /// <param name="listPublicKey"></param>
+        /// <param name="consumerPublicKey"></param>
+        /// <returns></returns>
+        public ListShare ListShare_Create(string listPublicKey, string consumerPublicKey)
+        {
+            Util.User util = new Util.User();
+            ListShare newListShare = new ListShare();
+
+            try
+            {
+                var list = List_GetListByPublicKey(listPublicKey);
+                var userConsumer = User_GetUser(consumerPublicKey);
+                var userOwner = User_GetUser(Convert.ToInt32(list.UserID));
+
+                if ((list == null) || (userConsumer == null) || (userOwner == null))
+                {
+                    throw new Exception("Unable to resolve source list, user consumer or user owner");
+                }
+
+                newListShare.CreateDate = DateTime.Now;
+                newListShare.UserConsumer = userConsumer;
+                newListShare.UserOwner = userOwner;
+                newListShare.List = list;
+                newListShare.PublicKey = util.GenerateUserPublicKey();
+
+                _gyftoListEntities.ListShares.AddObject(newListShare);
+                _gyftoListEntities.SaveChanges();
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+
+            return newListShare;
+        }
 
         /// <summary>
         /// This will delete the assoicated ListShare
