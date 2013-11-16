@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using GyftoList.Data;
 
 namespace GyftoList.API.Translations
 {
@@ -24,6 +25,11 @@ namespace GyftoList.API.Translations
         private bool? _active = false;
         private string _imageUrl = string.Empty;
         private string _itemUrl = string.Empty;
+        private decimal? _costRangeStart = decimal.MinValue;
+        private decimal? _costRangeEnd = decimal.MinValue;
+        private string _size = string.Empty;
+        private Int16? _qty = 0;
+        private string _color = string.Empty;
 
         #endregion
 
@@ -59,6 +65,18 @@ namespace GyftoList.API.Translations
             set { _cost = value; }
         }
 
+        public decimal? CostRangeStart
+        {
+            get { return _costRangeStart; }
+            set { _costRangeStart = value; }
+        }
+
+        public decimal? CostRangeEnd
+        {
+            get { return _costRangeEnd; }
+            set { _costRangeEnd = value; }
+        }
+
         public int? Ordinal
         {
             get { return _ordinal; }
@@ -83,6 +101,24 @@ namespace GyftoList.API.Translations
             set { _itemUrl = value; }
         }
 
+        public string Size
+        {
+            get { return _size; }
+            set { _size = value; }
+        }
+
+        public Int16? Qty
+        {
+            get { return _qty; }
+            set { _qty = value; }
+        }
+
+        public string Color
+        {
+            get { return _color; }
+            set { _color = value; }
+        }
+
         #endregion
 
         #region Public Methods
@@ -92,9 +128,30 @@ namespace GyftoList.API.Translations
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        public API_ListItem ConvertToAPI_ListItem(GyftoList.Data.Item listItem, string listPublicKey)
+        public API_ListItem ConvertToAPI_ListItem(Item listItem, string listPublicKey)
         {
-            return new API_ListItem { Cost = listItem.Cost, Description = listItem.Description, ImageURL = listItem.ImageURL, ItemURL = listItem.ItemURL, ListPublicKey = listPublicKey, Ordinal = listItem.Ordinal, PublicKey = listItem.PublicKey, Title = listItem.Title, Active = listItem.Active };
+            return new API_ListItem { Cost = listItem.Cost, CostRangeStart = listItem.CostRangeStart, CostRangeEnd = listItem.CostRangeEnd,  Description = listItem.Description, ImageURL = listItem.ImageURL, ItemURL = listItem.ItemURL, ListPublicKey = listPublicKey, Ordinal = listItem.Ordinal, PublicKey = listItem.PublicKey, Title = listItem.Title, Active = listItem.Active, Size = listItem.Size, Qty = listItem.Qty, Color = listItem.Color };
+        }
+
+        public Item ConvertFromAPI_ListItem(API_ListItem apiListItem)
+        { 
+            // Create Date, Created By, 
+            return new Item
+            {
+                PublicKey = apiListItem.PublicKey,
+                Active = apiListItem.Active,
+                Color = apiListItem.Color,
+                Cost = apiListItem.Cost,
+                CostRangeEnd = apiListItem.CostRangeEnd,
+                CostRangeStart = apiListItem.CostRangeStart,
+                Description = apiListItem.Description,
+                ImageURL = apiListItem.ImageURL,
+                ItemURL = apiListItem.ItemURL,
+                Ordinal = apiListItem.Ordinal,
+                Qty = apiListItem.Qty,
+                Size = apiListItem.Size,
+                Title = apiListItem.Title
+            };
         }
 
         #endregion

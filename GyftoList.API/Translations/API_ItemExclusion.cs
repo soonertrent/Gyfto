@@ -17,6 +17,7 @@ namespace GyftoList.API.Translations
 
         private string _itemPublicKey = string.Empty;
         private string _listSharePublicKey = string.Empty;
+        private string _publicKey = string.Empty;
 
         #endregion
 
@@ -32,6 +33,12 @@ namespace GyftoList.API.Translations
         {
             get { return _listSharePublicKey; }
             set { _listSharePublicKey = value; }
+        }
+
+        public string PublicKey
+        {
+            get { return _publicKey; }
+            set { _publicKey = value; }
         }
 
         #endregion

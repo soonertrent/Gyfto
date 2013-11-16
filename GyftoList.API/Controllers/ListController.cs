@@ -35,7 +35,7 @@ namespace GyftoList.API.Controllers
             }
             else
             {
-                rcUsrList = rcUsrList.ConvertToAPI_ListWithItems(usrList);
+                rcUsrList = rcUsrList.ConvertToAPI_ListWithActiveItems(usrList);
             }
 
             // Add the associated ListShares

@@ -19,24 +19,52 @@ namespace GyftoList.API.Controllers
 
         #region Public Methods
 
-        // GET api/ListShare/5
-        public API_ItemExclusion GetSomething(string id)
-        {
-            return new API_ItemExclusion();
-        }
-
-        // POST api/itemexclusion/
-        public HttpResponseMessage PostListShare(API_ItemExclusion itemExclusion)
+        // POST api/itemexclusion/PostItemExclusion
+        public HttpResponseMessage PostItemExclusion(API_ItemExclusion itemExclusion)
         {
             var rcMsg = Request.CreateResponse(HttpStatusCode.BadRequest);
-            if ((ModelState.IsValid) && (itemExclusion != null))
+            if ((ModelState.IsValid) && ((!string.IsNullOrEmpty(itemExclusion.ListSharePublicKey)) && (!string.IsNullOrEmpty(itemExclusion.ItemPublicKey))))
             {
                 try
                 {
-                    var b = _dataMethods.ItemExclusion_Create(itemExclusion.ListSharePublicKey, itemExclusion.ItemPublicKey);
-                    if (b)
+                    using (var dataMethods = new DataMethods())
                     {
-                        rcMsg = Request.CreateResponse(HttpStatusCode.Created, itemExclusion);
+                        var listShareID = dataMethods.ListShare_GetByPublicKey(itemExclusion.ListSharePublicKey).ListShareID;
+                        var itemID = dataMethods.ListItem_GetByPublicKey(itemExclusion.ItemPublicKey).ItemID;
+                        var rcItemExclusion = dataMethods.ItemExclusion_Create(listShareID, itemID);
+                        if (rcItemExclusion != null)
+                        {
+                            rcMsg = Request.CreateResponse(HttpStatusCode.Created, rcItemExclusion);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    rcMsg = Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+            }
+            else
+            {
+                rcMsg = Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
+            return rcMsg;
+        }
+
+        public HttpResponseMessage DeleteItemExclusion(string id)
+        {
+            var rcMsg = Request.CreateResponse(HttpStatusCode.OK);
+            if (!string.IsNullOrEmpty(id))
+            {
+                try
+                {
+                    using (var dataMethods = new DataMethods())
+                    {
+                        var rcItemExclusion = dataMethods.ItemExclusion_Delete(id);
+                        if (!rcItemExclusion)
+                        {
+                            Request.CreateResponse(HttpStatusCode.BadRequest);
+                        }
                     }
                 }
                 catch (Exception ex)

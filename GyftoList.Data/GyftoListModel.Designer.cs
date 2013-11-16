@@ -21,11 +21,13 @@ using System.Xml.Serialization;
 
 [assembly: EdmRelationshipAttribute("GyftoListModel", "FK_EmailAddress_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.User), "EmailAddress", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.EmailAddress), true)]
 [assembly: EdmRelationshipAttribute("GyftoListModel", "FK_Item_List", "List", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.List), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.Item), true)]
-[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ItemExclusion_Item", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.Item), "ItemExclusion", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ItemExclusion), true)]
 [assembly: EdmRelationshipAttribute("GyftoListModel", "FK_List_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GyftoList.Data.User), "List", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.List), true)]
 [assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListShare_List", "List", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.List), "ListShare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListShare), true)]
 [assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListShare_UserConsumer", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.User), "ListShare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListShare), true)]
 [assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ListShare_UserOwner", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.User), "ListShare", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ListShare), true)]
+[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_Item_User", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GyftoList.Data.User), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.Item), true)]
+[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_ItemTag_Item", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(GyftoList.Data.Item), "ItemTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.ItemTag), true)]
+[assembly: EdmRelationshipAttribute("GyftoListModel", "FK_User_UserProvider", "UserProvider", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(GyftoList.Data.UserProvider), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(GyftoList.Data.User), true)]
 
 #endregion
 
@@ -112,22 +114,6 @@ namespace GyftoList.Data
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<ItemExclusion> ItemExclusions
-        {
-            get
-            {
-                if ((_ItemExclusions == null))
-                {
-                    _ItemExclusions = base.CreateObjectSet<ItemExclusion>("ItemExclusions");
-                }
-                return _ItemExclusions;
-            }
-        }
-        private ObjectSet<ItemExclusion> _ItemExclusions;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<List> Lists
         {
             get
@@ -172,6 +158,70 @@ namespace GyftoList.Data
             }
         }
         private ObjectSet<User> _Users;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ItemCopy> ItemCopies
+        {
+            get
+            {
+                if ((_ItemCopies == null))
+                {
+                    _ItemCopies = base.CreateObjectSet<ItemCopy>("ItemCopies");
+                }
+                return _ItemCopies;
+            }
+        }
+        private ObjectSet<ItemCopy> _ItemCopies;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ItemTag> ItemTags
+        {
+            get
+            {
+                if ((_ItemTags == null))
+                {
+                    _ItemTags = base.CreateObjectSet<ItemTag>("ItemTags");
+                }
+                return _ItemTags;
+            }
+        }
+        private ObjectSet<ItemTag> _ItemTags;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<UserProvider> UserProviders
+        {
+            get
+            {
+                if ((_UserProviders == null))
+                {
+                    _UserProviders = base.CreateObjectSet<UserProvider>("UserProviders");
+                }
+                return _UserProviders;
+            }
+        }
+        private ObjectSet<UserProvider> _UserProviders;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ItemExclusion> ItemExclusions
+        {
+            get
+            {
+                if ((_ItemExclusions == null))
+                {
+                    _ItemExclusions = base.CreateObjectSet<ItemExclusion>("ItemExclusions");
+                }
+                return _ItemExclusions;
+            }
+        }
+        private ObjectSet<ItemExclusion> _ItemExclusions;
 
         #endregion
 
@@ -191,14 +241,6 @@ namespace GyftoList.Data
         public void AddToItems(Item item)
         {
             base.AddObject("Items", item);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ItemExclusions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToItemExclusions(ItemExclusion itemExclusion)
-        {
-            base.AddObject("ItemExclusions", itemExclusion);
         }
     
         /// <summary>
@@ -223,6 +265,38 @@ namespace GyftoList.Data
         public void AddToUsers(User user)
         {
             base.AddObject("Users", user);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ItemCopies EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToItemCopies(ItemCopy itemCopy)
+        {
+            base.AddObject("ItemCopies", itemCopy);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ItemTags EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToItemTags(ItemTag itemTag)
+        {
+            base.AddObject("ItemTags", itemTag);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the UserProviders EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToUserProviders(UserProvider userProvider)
+        {
+            base.AddObject("UserProviders", userProvider);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ItemExclusions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToItemExclusions(ItemExclusion itemExclusion)
+        {
+            base.AddObject("ItemExclusions", itemExclusion);
         }
 
         #endregion
@@ -730,6 +804,150 @@ namespace GyftoList.Data
         private global::System.DateTime _CreateDate;
         partial void OnCreateDateChanging(global::System.DateTime value);
         partial void OnCreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> CreatedBy
+        {
+            get
+            {
+                return _CreatedBy;
+            }
+            set
+            {
+                OnCreatedByChanging(value);
+                ReportPropertyChanging("CreatedBy");
+                _CreatedBy = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CreatedBy");
+                OnCreatedByChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _CreatedBy;
+        partial void OnCreatedByChanging(Nullable<global::System.Int32> value);
+        partial void OnCreatedByChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int16> Qty
+        {
+            get
+            {
+                return _Qty;
+            }
+            set
+            {
+                OnQtyChanging(value);
+                ReportPropertyChanging("Qty");
+                _Qty = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Qty");
+                OnQtyChanged();
+            }
+        }
+        private Nullable<global::System.Int16> _Qty;
+        partial void OnQtyChanging(Nullable<global::System.Int16> value);
+        partial void OnQtyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Size
+        {
+            get
+            {
+                return _Size;
+            }
+            set
+            {
+                OnSizeChanging(value);
+                ReportPropertyChanging("Size");
+                _Size = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Size");
+                OnSizeChanged();
+            }
+        }
+        private global::System.String _Size;
+        partial void OnSizeChanging(global::System.String value);
+        partial void OnSizeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Color
+        {
+            get
+            {
+                return _Color;
+            }
+            set
+            {
+                OnColorChanging(value);
+                ReportPropertyChanging("Color");
+                _Color = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Color");
+                OnColorChanged();
+            }
+        }
+        private global::System.String _Color;
+        partial void OnColorChanging(global::System.String value);
+        partial void OnColorChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> CostRangeStart
+        {
+            get
+            {
+                return _CostRangeStart;
+            }
+            set
+            {
+                OnCostRangeStartChanging(value);
+                ReportPropertyChanging("CostRangeStart");
+                _CostRangeStart = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CostRangeStart");
+                OnCostRangeStartChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _CostRangeStart;
+        partial void OnCostRangeStartChanging(Nullable<global::System.Decimal> value);
+        partial void OnCostRangeStartChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> CostRangeEnd
+        {
+            get
+            {
+                return _CostRangeEnd;
+            }
+            set
+            {
+                OnCostRangeEndChanging(value);
+                ReportPropertyChanging("CostRangeEnd");
+                _CostRangeEnd = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CostRangeEnd");
+                OnCostRangeEndChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _CostRangeEnd;
+        partial void OnCostRangeEndChanging(Nullable<global::System.Decimal> value);
+        partial void OnCostRangeEndChanged();
 
         #endregion
 
@@ -780,24 +998,197 @@ namespace GyftoList.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemExclusion_Item", "ItemExclusion")]
-        public EntityCollection<ItemExclusion> ItemExclusions
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_Item_User", "User")]
+        public User User
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ItemExclusion>("GyftoListModel.FK_ItemExclusion_Item", "ItemExclusion");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_Item_User", "User").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_Item_User", "User").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<User> UserReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<User>("GyftoListModel.FK_Item_User", "User");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ItemExclusion>("GyftoListModel.FK_ItemExclusion_Item", "ItemExclusion", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<User>("GyftoListModel.FK_Item_User", "User", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemTag_Item", "ItemTag")]
+        public EntityCollection<ItemTag> ItemTags
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ItemTag>("GyftoListModel.FK_ItemTag_Item", "ItemTag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ItemTag>("GyftoListModel.FK_ItemTag_Item", "ItemTag", value);
                 }
             }
         }
 
         #endregion
 
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="ItemCopy")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ItemCopy : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ItemCopy object.
+        /// </summary>
+        /// <param name="itemCopyID">Initial value of the ItemCopyID property.</param>
+        /// <param name="sourceItemID">Initial value of the SourceItemID property.</param>
+        /// <param name="copyItemID">Initial value of the CopyItemID property.</param>
+        /// <param name="createDate">Initial value of the CreateDate property.</param>
+        public static ItemCopy CreateItemCopy(global::System.Int32 itemCopyID, global::System.Int32 sourceItemID, global::System.Int32 copyItemID, global::System.DateTime createDate)
+        {
+            ItemCopy itemCopy = new ItemCopy();
+            itemCopy.ItemCopyID = itemCopyID;
+            itemCopy.SourceItemID = sourceItemID;
+            itemCopy.CopyItemID = copyItemID;
+            itemCopy.CreateDate = createDate;
+            return itemCopy;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ItemCopyID
+        {
+            get
+            {
+                return _ItemCopyID;
+            }
+            set
+            {
+                if (_ItemCopyID != value)
+                {
+                    OnItemCopyIDChanging(value);
+                    ReportPropertyChanging("ItemCopyID");
+                    _ItemCopyID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ItemCopyID");
+                    OnItemCopyIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ItemCopyID;
+        partial void OnItemCopyIDChanging(global::System.Int32 value);
+        partial void OnItemCopyIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 SourceItemID
+        {
+            get
+            {
+                return _SourceItemID;
+            }
+            set
+            {
+                OnSourceItemIDChanging(value);
+                ReportPropertyChanging("SourceItemID");
+                _SourceItemID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SourceItemID");
+                OnSourceItemIDChanged();
+            }
+        }
+        private global::System.Int32 _SourceItemID;
+        partial void OnSourceItemIDChanging(global::System.Int32 value);
+        partial void OnSourceItemIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 CopyItemID
+        {
+            get
+            {
+                return _CopyItemID;
+            }
+            set
+            {
+                OnCopyItemIDChanging(value);
+                ReportPropertyChanging("CopyItemID");
+                _CopyItemID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CopyItemID");
+                OnCopyItemIDChanged();
+            }
+        }
+        private global::System.Int32 _CopyItemID;
+        partial void OnCopyItemIDChanging(global::System.Int32 value);
+        partial void OnCopyItemIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime CreateDate
+        {
+            get
+            {
+                return _CreateDate;
+            }
+            set
+            {
+                OnCreateDateChanging(value);
+                ReportPropertyChanging("CreateDate");
+                _CreateDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CreateDate");
+                OnCreateDateChanged();
+            }
+        }
+        private global::System.DateTime _CreateDate;
+        partial void OnCreateDateChanging(global::System.DateTime value);
+        partial void OnCreateDateChanged();
+
+        #endregion
+
+    
     }
     
     /// <summary>
@@ -814,14 +1205,12 @@ namespace GyftoList.Data
         /// Create a new ItemExclusion object.
         /// </summary>
         /// <param name="itemExclusionID">Initial value of the ItemExclusionID property.</param>
-        /// <param name="itemID">Initial value of the ItemID property.</param>
-        /// <param name="listShareID">Initial value of the ListShareID property.</param>
-        public static ItemExclusion CreateItemExclusion(global::System.Int32 itemExclusionID, global::System.Int32 itemID, global::System.Int32 listShareID)
+        /// <param name="publicKey">Initial value of the PublicKey property.</param>
+        public static ItemExclusion CreateItemExclusion(global::System.Int32 itemExclusionID, global::System.String publicKey)
         {
             ItemExclusion itemExclusion = new ItemExclusion();
             itemExclusion.ItemExclusionID = itemExclusionID;
-            itemExclusion.ItemID = itemID;
-            itemExclusion.ListShareID = listShareID;
+            itemExclusion.PublicKey = publicKey;
             return itemExclusion;
         }
 
@@ -859,9 +1248,9 @@ namespace GyftoList.Data
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Int32 ItemID
+        public Nullable<global::System.Int32> ItemID
         {
             get
             {
@@ -869,26 +1258,23 @@ namespace GyftoList.Data
             }
             set
             {
-                if (_ItemID != value)
-                {
-                    OnItemIDChanging(value);
-                    ReportPropertyChanging("ItemID");
-                    _ItemID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ItemID");
-                    OnItemIDChanged();
-                }
+                OnItemIDChanging(value);
+                ReportPropertyChanging("ItemID");
+                _ItemID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ItemID");
+                OnItemIDChanged();
             }
         }
-        private global::System.Int32 _ItemID;
-        partial void OnItemIDChanging(global::System.Int32 value);
+        private Nullable<global::System.Int32> _ItemID;
+        partial void OnItemIDChanging(Nullable<global::System.Int32> value);
         partial void OnItemIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Int32 ListShareID
+        public Nullable<global::System.Int32> ListShareID
         {
             get
             {
@@ -896,19 +1282,40 @@ namespace GyftoList.Data
             }
             set
             {
-                if (_ListShareID != value)
-                {
-                    OnListShareIDChanging(value);
-                    ReportPropertyChanging("ListShareID");
-                    _ListShareID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ListShareID");
-                    OnListShareIDChanged();
-                }
+                OnListShareIDChanging(value);
+                ReportPropertyChanging("ListShareID");
+                _ListShareID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ListShareID");
+                OnListShareIDChanged();
             }
         }
-        private global::System.Int32 _ListShareID;
-        partial void OnListShareIDChanging(global::System.Int32 value);
+        private Nullable<global::System.Int32> _ListShareID;
+        partial void OnListShareIDChanging(Nullable<global::System.Int32> value);
         partial void OnListShareIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String PublicKey
+        {
+            get
+            {
+                return _PublicKey;
+            }
+            set
+            {
+                OnPublicKeyChanging(value);
+                ReportPropertyChanging("PublicKey");
+                _PublicKey = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("PublicKey");
+                OnPublicKeyChanged();
+            }
+        }
+        private global::System.String _PublicKey;
+        partial void OnPublicKeyChanging(global::System.String value);
+        partial void OnPublicKeyChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -937,6 +1344,144 @@ namespace GyftoList.Data
         #endregion
 
     
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="ItemTag")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ItemTag : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ItemTag object.
+        /// </summary>
+        /// <param name="itemTagID">Initial value of the ItemTagID property.</param>
+        /// <param name="itemID">Initial value of the ItemID property.</param>
+        /// <param name="title">Initial value of the Title property.</param>
+        /// <param name="createDate">Initial value of the CreateDate property.</param>
+        public static ItemTag CreateItemTag(global::System.Int32 itemTagID, global::System.Int32 itemID, global::System.String title, global::System.DateTime createDate)
+        {
+            ItemTag itemTag = new ItemTag();
+            itemTag.ItemTagID = itemTagID;
+            itemTag.ItemID = itemID;
+            itemTag.Title = title;
+            itemTag.CreateDate = createDate;
+            return itemTag;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ItemTagID
+        {
+            get
+            {
+                return _ItemTagID;
+            }
+            set
+            {
+                if (_ItemTagID != value)
+                {
+                    OnItemTagIDChanging(value);
+                    ReportPropertyChanging("ItemTagID");
+                    _ItemTagID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ItemTagID");
+                    OnItemTagIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ItemTagID;
+        partial void OnItemTagIDChanging(global::System.Int32 value);
+        partial void OnItemTagIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ItemID
+        {
+            get
+            {
+                return _ItemID;
+            }
+            set
+            {
+                if (_ItemID != value)
+                {
+                    OnItemIDChanging(value);
+                    ReportPropertyChanging("ItemID");
+                    _ItemID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ItemID");
+                    OnItemIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ItemID;
+        partial void OnItemIDChanging(global::System.Int32 value);
+        partial void OnItemIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Title
+        {
+            get
+            {
+                return _Title;
+            }
+            set
+            {
+                OnTitleChanging(value);
+                ReportPropertyChanging("Title");
+                _Title = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Title");
+                OnTitleChanged();
+            }
+        }
+        private global::System.String _Title;
+        partial void OnTitleChanging(global::System.String value);
+        partial void OnTitleChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime CreateDate
+        {
+            get
+            {
+                return _CreateDate;
+            }
+            set
+            {
+                OnCreateDateChanging(value);
+                ReportPropertyChanging("CreateDate");
+                _CreateDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CreateDate");
+                OnCreateDateChanged();
+            }
+        }
+        private global::System.DateTime _CreateDate;
+        partial void OnCreateDateChanging(global::System.DateTime value);
+        partial void OnCreateDateChanged();
+
+        #endregion
+
+    
         #region Navigation Properties
     
         /// <summary>
@@ -945,16 +1490,16 @@ namespace GyftoList.Data
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemExclusion_Item", "Item")]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_ItemTag_Item", "Item")]
         public Item Item
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemExclusion_Item", "Item").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemTag_Item", "Item").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemExclusion_Item", "Item").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemTag_Item", "Item").Value = value;
             }
         }
         /// <summary>
@@ -966,13 +1511,13 @@ namespace GyftoList.Data
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemExclusion_Item", "Item");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("GyftoListModel.FK_ItemTag_Item", "Item");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("GyftoListModel.FK_ItemExclusion_Item", "Item", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("GyftoListModel.FK_ItemTag_Item", "Item", value);
                 }
             }
         }
@@ -1779,6 +2324,78 @@ namespace GyftoList.Data
         private global::System.String _AvatarURL;
         partial void OnAvatarURLChanging(global::System.String value);
         partial void OnAvatarURLChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String UserToken
+        {
+            get
+            {
+                return _UserToken;
+            }
+            set
+            {
+                OnUserTokenChanging(value);
+                ReportPropertyChanging("UserToken");
+                _UserToken = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("UserToken");
+                OnUserTokenChanged();
+            }
+        }
+        private global::System.String _UserToken;
+        partial void OnUserTokenChanging(global::System.String value);
+        partial void OnUserTokenChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int16> BirthYear
+        {
+            get
+            {
+                return _BirthYear;
+            }
+            set
+            {
+                OnBirthYearChanging(value);
+                ReportPropertyChanging("BirthYear");
+                _BirthYear = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("BirthYear");
+                OnBirthYearChanged();
+            }
+        }
+        private Nullable<global::System.Int16> _BirthYear;
+        partial void OnBirthYearChanging(Nullable<global::System.Int16> value);
+        partial void OnBirthYearChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> ProviderID
+        {
+            get
+            {
+                return _ProviderID;
+            }
+            set
+            {
+                OnProviderIDChanging(value);
+                ReportPropertyChanging("ProviderID");
+                _ProviderID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ProviderID");
+                OnProviderIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _ProviderID;
+        partial void OnProviderIDChanging(Nullable<global::System.Int32> value);
+        partial void OnProviderIDChanged();
 
         #endregion
 
@@ -1869,6 +2486,175 @@ namespace GyftoList.Data
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ListShare>("GyftoListModel.FK_ListShare_UserOwner", "ListShare", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_Item_User", "Item")]
+        public EntityCollection<Item> Items
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Item>("GyftoListModel.FK_Item_User", "Item");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Item>("GyftoListModel.FK_Item_User", "Item", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_User_UserProvider", "UserProvider")]
+        public UserProvider UserProvider
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserProvider>("GyftoListModel.FK_User_UserProvider", "UserProvider").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserProvider>("GyftoListModel.FK_User_UserProvider", "UserProvider").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<UserProvider> UserProviderReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserProvider>("GyftoListModel.FK_User_UserProvider", "UserProvider");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<UserProvider>("GyftoListModel.FK_User_UserProvider", "UserProvider", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="UserProvider")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class UserProvider : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new UserProvider object.
+        /// </summary>
+        /// <param name="providerID">Initial value of the ProviderID property.</param>
+        /// <param name="providerType">Initial value of the ProviderType property.</param>
+        public static UserProvider CreateUserProvider(global::System.Int32 providerID, global::System.String providerType)
+        {
+            UserProvider userProvider = new UserProvider();
+            userProvider.ProviderID = providerID;
+            userProvider.ProviderType = providerType;
+            return userProvider;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ProviderID
+        {
+            get
+            {
+                return _ProviderID;
+            }
+            set
+            {
+                if (_ProviderID != value)
+                {
+                    OnProviderIDChanging(value);
+                    ReportPropertyChanging("ProviderID");
+                    _ProviderID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ProviderID");
+                    OnProviderIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ProviderID;
+        partial void OnProviderIDChanging(global::System.Int32 value);
+        partial void OnProviderIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ProviderType
+        {
+            get
+            {
+                return _ProviderType;
+            }
+            set
+            {
+                OnProviderTypeChanging(value);
+                ReportPropertyChanging("ProviderType");
+                _ProviderType = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ProviderType");
+                OnProviderTypeChanged();
+            }
+        }
+        private global::System.String _ProviderType;
+        partial void OnProviderTypeChanging(global::System.String value);
+        partial void OnProviderTypeChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("GyftoListModel", "FK_User_UserProvider", "User")]
+        public EntityCollection<User> Users
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User>("GyftoListModel.FK_User_UserProvider", "User");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User>("GyftoListModel.FK_User_UserProvider", "User", value);
                 }
             }
         }

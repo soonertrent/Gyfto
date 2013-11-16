@@ -8,75 +8,160 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.OData.Builder;
 using GyftoList.Data;
 using GyftoList.API.Translations;
+
+
 
 namespace GyftoList.API.Controllers
 {
     public class ListItemController : ApiController
     {
-        private GyftoListEntities db = new GyftoListEntities();
-        private DataMethods _dataMethods = new DataMethods();
+        private API_ListItem converter = new API_ListItem();
+        private DataMethods _dataMethods;
 
-        // GET api/ListItem
-        public IEnumerable<Item> GetItems()
+        // GET api/ListItem/GetItems
+        public List<API_ListItem> GetItems()
         {
-            var items = db.Items.Include("List");
-            return items.AsEnumerable();
+            List<API_ListItem> returnItems = new List<API_ListItem>();
+
+            try
+            {
+                using (_dataMethods = new DataMethods())
+                {
+                    var listItems = _dataMethods.ListItem_GetAll();
+                    foreach (var i in listItems)
+                    {
+                        returnItems.Add(converter.ConvertToAPI_ListItem(i,i.List.PublicKey));
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return returnItems;
         }
 
-        // GET api/ListItem/5
+        // GET api/ListItem/GetItem/5
         public API_ListItem GetItem(string id)
         {
             API_ListItem returnItem = new API_ListItem();
-            Item item = db.Items.Single(i => i.PublicKey == id);
-            if (item == null)
+
+            using (_dataMethods = new DataMethods())
             {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-            else
-            {
-                returnItem = returnItem.ConvertToAPI_ListItem(item, item.List.PublicKey);
+                var item = _dataMethods.ListItem_GetByPublicKey(id);
+                if (item == null)
+                {
+                    throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+                }
+                else
+                {
+                    returnItem = returnItem.ConvertToAPI_ListItem(item, item.List.PublicKey);
+                }
             }
 
             return returnItem;
         }
 
-        // PUT api/ListItem/5
-        public HttpResponseMessage PutItem(string id, Item item)
+        // GET api/ListItem/GetItemsForList/5
+        [Queryable]
+        public IQueryable<API_ListItem> GetItemsForList(string id)
         {
-            if (ModelState.IsValid && id == item.PublicKey)
+            var rcListItem = new List<API_ListItem>();
+            if (id != string.Empty)
             {
-                db.Items.Attach(item);
-                db.ObjectStateManager.ChangeObjectState(item, EntityState.Modified);
-
-                try
+                using (_dataMethods = new DataMethods())
                 {
-                    db.SaveChanges();
+                    var list = _dataMethods.List_GetListByPublicKey(id);
+                    if (list == null)
+                    {
+                        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+                    }
+                    else
+                    {
+                        // Convert each ListItem to an API_ListItem                        
+                        foreach (var i in list.Items)
+                        {
+                            rcListItem.Add(converter.ConvertToAPI_ListItem(i, id));
+                        }
+                    }
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
-                }
-
-                return Request.CreateResponse(HttpStatusCode.OK);
             }
-            else
+            else 
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                throw new HttpException("List Public Key not Provided!");
             }
+
+            return rcListItem.AsQueryable();
         }
 
-        // POST api/ListItem
-        public HttpResponseMessage PostItem(Item item)
+        #region Deprecated
+        //// PUT api/ListItem/5
+        //public HttpResponseMessage PutItem(string id, Item item)
+        //{
+        //    if (ModelState.IsValid && id == item.PublicKey)
+        //    {
+        //        db.Items.Attach(item);
+        //        db.ObjectStateManager.ChangeObjectState(item, EntityState.Modified);
+
+        //        try
+        //        {
+        //            db.SaveChanges();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            return Request.CreateResponse(HttpStatusCode.NotFound);
+        //        }
+
+        //        return Request.CreateResponse(HttpStatusCode.OK);
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.BadRequest);
+        //    }
+        //} 
+        #endregion
+
+        // POST api/ListItem/PostItem/
+        public HttpResponseMessage PostItem(API_ListItem item)
         {
             if (ModelState.IsValid)
             {
-                db.Items.AddObject(item);
-                db.SaveChanges();
+                var createdItem = new Item();
+
+                try
+                {
+                    using (_dataMethods = new DataMethods())
+                    { 
+                        // Convert from the API to the Item
+                        var listItem = converter.ConvertFromAPI_ListItem(item);
+                        
+                        // Create the item 
+                        createdItem = _dataMethods.ListItem_Create(item.ListPublicKey,
+                            listItem.Title,
+                            listItem.Description,
+                            listItem.Cost,
+                            listItem.CostRangeStart,
+                            listItem.CostRangeEnd,
+                            listItem.Size,
+                            listItem.Color,
+                            listItem.Qty,
+                            listItem.Ordinal,
+                            listItem.ImageURL,
+                            listItem.ItemURL);
+                    }
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, item);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = item.ItemID }));
+                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = createdItem.PublicKey }));
                 return response;
             }
             else
@@ -110,10 +195,5 @@ namespace GyftoList.API.Controllers
             return rMsg;
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
-        }
     }
 }

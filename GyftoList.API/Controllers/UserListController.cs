@@ -28,19 +28,23 @@ namespace GyftoList.API.Controllers
             var rcList = new List<API_List>();
             try
             {
-                var usr = _dataAccess.User_GetUser(userPublicKey);
-                if (usr != null)
+                //
+                using (_dataAccess = new DataMethods())
                 {
-                    var converter = new API_List();
-                    var usrLists = _dataAccess.List_GetListByUserID(usr.UserID);
-                    foreach (var l in usrLists)
+                    var usr = _dataAccess.User_GetUser(userPublicKey);
+                    if (usr != null)
                     {
-                        rcList.Add(converter.ConvertToAPI_ListWithItems(l));
+                        var converter = new API_List();
+                        var usrLists = _dataAccess.List_GetListByUserID(usr.UserID);
+                        foreach (var l in usrLists)
+                        {
+                            rcList.Add(converter.ConvertToAPI_ListWithAllItems(l));
+                        }
                     }
-                }
-                else
-                {
-                    throw new Exception("Unable to source User: " + userPublicKey);
+                    else
+                    {
+                        throw new Exception("Unable to source User: " + userPublicKey);
+                    }
                 }
             }
             catch (Exception ex)

@@ -17,9 +17,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GyftoList.API", "GyftoList.API\GyftoList.API.csproj", "{B772BA98-C2E9-4263-8A8B-131D78F5AC9C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FB7BC6AF-9488-4297-8560-1FA7F90E62FA}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gyfto.Web", "Gyfto.Web\Gyfto.Web.csproj", "{7C626427-C25D-4605-B5C7-1C6B84E239A1}"
 EndProject

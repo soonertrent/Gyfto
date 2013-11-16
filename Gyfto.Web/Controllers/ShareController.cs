@@ -29,7 +29,7 @@ namespace Gyfto.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("Shared List not found");
+                    throw new Exception("Shared List not found" + ex.InnerException.ToString());
                 }
             }
             else { throw new Exception("Shared  List not provided"); }

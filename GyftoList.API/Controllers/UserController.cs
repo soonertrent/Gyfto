@@ -24,6 +24,7 @@ namespace GyftoList.API.Controllers
             _dataAccess = new DataMethods();
         }
         
+        
         public List<API_User> GetAllUsers()
                 {
                     var rcUsrs = new List<API_User>();

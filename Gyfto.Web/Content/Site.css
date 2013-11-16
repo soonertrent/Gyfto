@@ -491,6 +491,34 @@ body {
         max-width:550px;
     }
 
+    .listItemSharedItemProperties ul
+    {
+        margin-left:65px;
+        margin-top:20px;
+    }
+
+    .listItemSharedItemProperties li
+    {
+        display: inline;
+        list-style-type: none;
+
+        min-width: 20px;
+        text-align: center;
+        color: #E9EDF1;
+        font-size: 11px;
+        font-weight: bold;
+        height: 24px;
+        padding: 0 6px;
+        line-height: 24px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        border: 1px solid gainsboro;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background-color: #007A52;/*#009966;*/
+        
+    }
+
     .listItemSharedCost
     {
         margin-left:96px;
@@ -515,10 +543,6 @@ body {
         background-color: #007A52;/*#009966;*/
         list-style-type: none;
     }
-    
-
-        
-
 
 .gyftoDescription
 {

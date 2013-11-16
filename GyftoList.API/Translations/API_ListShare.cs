@@ -21,6 +21,7 @@ namespace GyftoList.API.Translations
         private string _ownerPublicKey = string.Empty;
         private string _consumerDisplayName = string.Empty;
         private string _ownerDisplayName = string.Empty;
+        private string _listPublicKey = string.Empty;
         private API_List _sharedList = new API_List();
 
         #endregion
@@ -57,6 +58,13 @@ namespace GyftoList.API.Translations
             set { _ownerDisplayName = value; }
         }
 
+        public string ListPublicKey
+        {
+            get { return _listPublicKey; }
+            set { _listPublicKey = value; }
+
+        }
+
         public API_List SharedList
         {
             get { return _sharedList; }
@@ -76,7 +84,7 @@ namespace GyftoList.API.Translations
         {
             var apiShare = GetShellListShare(listShare);
             var apiList = new API_List();
-            apiShare.SharedList = apiList.ConvertToAPI_ListWithItems(listShare.List);
+            apiShare.SharedList = apiList.ConvertToAPI_ListWithAllItems(listShare.List);
 
             return apiShare;
         }
@@ -94,6 +102,17 @@ namespace GyftoList.API.Translations
             return apiShare;
         }
 
+        public ListShare ConvertFromAPI_ListShare(API_ListShare listShare)
+        {
+            using(var dataMethods = new DataMethods())
+            {
+                return new ListShare() { 
+                    List = dataMethods.List_GetListByPublicKey(listShare.SharedList.PublicKey)
+                    ,UserConsumer = dataMethods.User_GetUser(listShare.ConsumerPublicKey)
+                    ,UserOwner = dataMethods.User_GetUser(listShare.OwnerPublicKey)
+                };
+            }
+        }
 
         /// <summary>
         /// This builds a base/shell API_ListShare object

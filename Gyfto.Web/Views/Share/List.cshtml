@@ -34,12 +34,33 @@ Below is a list that has been shared for you. Enjoy!
         @{ var num = 1; }
         @foreach (var i in @Model.SharedList.Items)
         { 
-            <li id="@i.PublicKey">
+            <li id="@i.PublicKey" alt="@i.PublicKey">
                 <div class="listItemSharedNumber">@num.ToString())</div>
-                <div class="listItemSharedImage"><a href="@i.ItemURL"  target="_blank"><img src="@i.ImageURL" width="50px" alt="@i.Description" /></a></div>
+                <div class="listItemSharedImage"><a href="@i.ItemURL" alt="@i.PublicKey" target="_blank"><img src="@i.ImageURL" width="50px" alt="@i.Description" /></a></div>
                 <div class="listItemSharedTitle"><a href="@i.ItemURL"  target="_blank">@i.Title</a></div>
                 <div class="listItemSharedDescription">@i.Description</div>
-                <div class="listItemSharedCost">@i.Cost.ToString()</div>
+                <div class="listItemSharedItemProperties">
+                    <ul>
+                        @if (((i.CostRangeStart !=0m) && (i.CostRangeEnd != 0m)) && ((i.CostRangeStart !=null) && (i.CostRangeEnd != null)))
+                        {
+                            <li>Cost: from @i.CostRangeStart.ToString() to @i.CostRangeEnd.ToString()</li>
+                        }
+                        else
+                        {
+                            <li>Cost: @i.Cost.ToString()</li>
+                        }
+                
+                            @if (!string.IsNullOrEmpty(i.Color))
+                        { 
+                            <li>Color: @i.Color</li>        
+                        }
+
+                            @if (i.Qty.HasValue)
+                        { 
+                            <li>Qty: @i.Qty.ToString()</li>        
+                        }
+                    </ul>
+                </div>
             </li>
             { num = num + 1;    }
         }
