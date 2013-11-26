@@ -53,16 +53,15 @@ namespace GyftoList.ConsoleAppTester
             //var count = QueryEmailAddresses();
             //var user = CreateUserAccount();
 
-            var listItemPublicKey = "87a020ce";
-            Console.WriteLine("Deleting List Item " + listItemPublicKey);
-            Console.WriteLine(DeleteListItem(listItemPublicKey));
-            Console.ReadLine();
+            //var listItemPublicKey = "87a020ce";
+            //Console.WriteLine("Deleting List Item " + listItemPublicKey);
+            //Console.WriteLine(DeleteListItem(listItemPublicKey));
+            //Console.ReadLine();
 
-            var listPublicKey = "49c8f932";
+            //var listPublicKey = "49c8f932";
 
             //var newListItem = GenerateListItem();
             //var newItem = CreateListItem(listPublicKey, newListItem);
-            
             //Console.WriteLine("Item " + newItem.Title + " added!");
             //Console.ReadLine();
 
@@ -103,9 +102,30 @@ namespace GyftoList.ConsoleAppTester
 
             // GoPro - "acb62b1b" - to 2nd
 
-            //var itemPublicKey = "22dd09fa";
-            //GetListItemByPublicKey(itemPublicKey);
-            //var rcMsg = UpdateListItemOrdinal(itemPublicKey, 2);
+            var itemPublicKey = "53cc37e6";
+            ////GetListItemByPublicKey(itemPublicKey);
+            //var rcMsg = UpdateListItemOrdinal(itemPublicKey, 13);
+            //Console.WriteLine(string.Format("{0} Updated with status '{1}'", itemPublicKey, rcMsg.StatusCode.ToString()));
+            //Console.ReadLine();
+
+            // GET ALL CONSUMERS OF A LIST ITEM
+            var itemConsumers = GetAllConsumersOfListItem(itemPublicKey);
+            Console.Write(itemPublicKey);
+            foreach (var u in itemConsumers)
+            {
+                Console.WriteLine(string.Format("{0}",u.FName));
+            }
+            Console.WriteLine();
+
+            itemPublicKey = "aac6d432";
+            Console.Write(itemPublicKey);
+            itemConsumers = GetAllConsumersOfListItem(itemPublicKey);
+            foreach (var u in itemConsumers)
+            {
+                Console.WriteLine(string.Format("{0}", u.FName));
+            }
+            Console.ReadLine();
+
 
             // DELETING CURRENT LIST SHARES
             //foreach (var ls in GetListShares())
@@ -124,7 +144,7 @@ namespace GyftoList.ConsoleAppTester
             //Console.ReadLine();
 
             // CREATING LIST SHARES
-            //var userEmailAddress = "mander.weaver@gmail.com";
+            //var userEmailAddress = "sharonannette52@yahoo.com";
             //var consumer = GetUserByEmailAddress(userEmailAddress);
             //var newListShare = new API_ListShare()
             //{
@@ -138,7 +158,7 @@ namespace GyftoList.ConsoleAppTester
             //var listShareForUser = GetListShares().Where(i => i.UserConsumer.PublicKey == consumer.PublicKey).FirstOrDefault();
             //if (listShareForUser != null)
             //{
-            //    var itemSet = GetListItemsForList(listShareForUser.List.PublicKey).Where(i => i.Cost > 50.00m && Convert.ToBoolean(i.Active) == true);
+            //    var itemSet = GetListItemsForList(listShareForUser.List.PublicKey).Where(i => i.Cost > 300.00m && Convert.ToBoolean(i.Active) == true);
             //    foreach (var i in itemSet)
             //    {
             //        var newItemExclusion = new API_ItemExclusion() { ListSharePublicKey = listShareForUser.PublicKey, ItemPublicKey = i.PublicKey };
@@ -281,18 +301,18 @@ namespace GyftoList.ConsoleAppTester
         static private Item GenerateListItem()
         { 
             return new Item(){
-                Title = "Eastern Collective iPhone cable"
-                , Description = "I seem to keep loosing these."
+                Title = "Porsche 911: 50 Years"
+                , Description = "Book about my favorite car. :)"
                 ,
-                ItemURL = "http://www.easterncollective.com/product/lightning-ronald/"
+                ItemURL = "http://www.amazon.com/Porsche-911-Years-Randy-Leffingwell/dp/0760344019/ref=sr_1_1?ie=UTF8&qid=1384917370&sr=8-1&keywords=porsche+50+years"
                 ,
-                ImageURL = "http://www.easterncollective.com/wp-content/uploads/2013/05/Lightning-Ronald-114x145.jpg"
+                ImageURL = "http://ecx.images-amazon.com/images/I/31Pxg0GemSL._SX258_PJlook-inside-v2,TopRight,1,0_SH20_BO1,204,203,200_.jpg"
                 , Size = string.Empty
-                , Color = "Red/Yellow"
+                , Color = string.Empty
                 , Qty = 1
-                , Cost = 23.95m
-                , CostRangeStart = 0.00m
-                , CostRangeEnd = 0.00m};
+                , Cost = 0.00m
+                , CostRangeStart = 35.98m
+                , CostRangeEnd = 50.00m};
         }
     
         static private Item Deprecated_CreateListItem(string listPublicKey)
@@ -531,6 +551,12 @@ namespace GyftoList.ConsoleAppTester
         {
             gData = new DataMethods();
             return gData.ListShare_GetAll();
+        }
+
+        static private List<GyftoList.Data.User> GetAllConsumersOfListItem(string listItemPublicKey)
+        {
+            gData = new DataMethods();
+            return gData.ListItem_GetAllConsumersByListItemPublicKey(listItemPublicKey);
         }
     }
 }

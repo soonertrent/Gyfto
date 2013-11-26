@@ -23,6 +23,7 @@ namespace GyftoList.API.Translations
         private string _ownerDisplayName = string.Empty;
         private string _listPublicKey = string.Empty;
         private API_List _sharedList = new API_List();
+        private List<API_User> _coConsumers = new List<API_User>();
 
         #endregion
 
@@ -69,6 +70,12 @@ namespace GyftoList.API.Translations
         {
             get { return _sharedList; }
             set { _sharedList = value; }
+        }
+
+        public List<API_User> CoConsumers
+        {
+            get { return _coConsumers; }
+            set { _coConsumers = value; }
         }
 
         #endregion

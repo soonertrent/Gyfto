@@ -211,11 +211,9 @@ namespace GyftoList.Data
         public bool ItemExclusion_DeleteByItem(string itemPublicKey)
         {
             var rc = false;
-
             try
             {
-                var ie = ItemExclusion_GetByItemPublicKey(itemPublicKey);
-                if (ie != null)
+                foreach (var ie in ItemExclusion_GetByItemPublicKey(itemPublicKey))
                 {
                     _gyftoListEntities.ItemExclusions.DeleteObject(ie);
                     _gyftoListEntities.SaveChanges();
@@ -244,17 +242,24 @@ namespace GyftoList.Data
         /// </summary>
         /// <param name="itemPublicKey"></param>
         /// <returns></returns>
-        public ItemExclusion ItemExclusion_GetByItemPublicKey(string itemPublicKey)
+        public List<ItemExclusion> ItemExclusion_GetByItemPublicKey(string itemPublicKey)
         {
-            var rc = new ItemExclusion();
-            var item = ListItem_GetByPublicKey(itemPublicKey);
-            if (item != null)
+            var rc = new List<ItemExclusion>();
+            try
             {
-                rc = _gyftoListEntities.ItemExclusions.Where(i => i.ItemID == item.ItemID).SingleOrDefault();
+                var item = ListItem_GetByPublicKey(itemPublicKey);
+                if (item != null)
+                {
+                    rc = _gyftoListEntities.ItemExclusions.Where(i => i.ItemID == item.ItemID).ToList();
+                }
+                else
+                {
+                    throw new Exception(string.Format("Unable to get Item with Public Key '{0}'", itemPublicKey));
+                }
             }
-            else
+            catch (Exception)
             {
-                throw new Exception(string.Format("Unable to get Item with Public Key '{0}'",itemPublicKey));
+                throw;
             }
             
             return rc;
@@ -648,16 +653,34 @@ namespace GyftoList.Data
                 var item = ListItem_GetByPublicKey(listItemPublicKey);
 
                 // Next, get all the items after this Ordinal to update
-                var itemsToBeUpdated = ListItem_GetActiveByListPublicKey(item.List.PublicKey).Where(i => i.Ordinal >= newOrdinal && i.Active == true).OrderBy(i => i.Ordinal);
+                //var itemsToBeUpdated = ListItem_GetActiveByListPublicKey(item.List.PublicKey).Where(i => i.Ordinal >= newOrdinal && i.Active == true).OrderBy(i => i.Ordinal);
+                var itemsToBeUpdated = ListItem_GetActiveByListPublicKey(item.List.PublicKey).Where(i => i.Active == true).OrderBy(i => i.Ordinal);
 
-                
+                // Next, iterate across the list  of items to do a rough re-order
                 if ((itemsToBeUpdated != null) && (itemsToBeUpdated.Count() > 0))
                 {
+                    var cnt = 1;
                     foreach (var i in itemsToBeUpdated)
                     {
-                        i.Ordinal = i.Ordinal + 1;
+                        if (i.Ordinal == newOrdinal)
+                        {
+                            cnt++;
+                        }
+
+                        if (i.PublicKey == listItemPublicKey)
+                        {
+                            i.Ordinal = newOrdinal;
+                        }
+                        else 
+                        {
+                            i.Ordinal = cnt;
+                        }
+
+                        cnt++;
                     }
                 }
+
+                // And then after the rough sort
 
                 // Last, update the item with the new  Ordinal
                 item.Ordinal = newOrdinal;
@@ -822,6 +845,32 @@ namespace GyftoList.Data
             return Convert.ToInt32(returnOrdinal.Ordinal);
         }
 
+        public List<User> ListItem_GetAllConsumersByListItemPublicKey(string listItemPublicKey)
+        {
+            var rcUsers = new List<User>();
+
+            using (_gyftoListEntities = new GyftoListEntities())
+            {
+                // First, get the list of all the consumers for the List this Item is associated to
+                var currentItem = ListItem_GetByPublicKey(listItemPublicKey);
+                var listConsumers = ListShare_GetCoConsumersForListShare(currentItem.List.PublicKey);
+
+                // Cache all the Item Exclusions
+                var itemExclusions = ItemExclusion_GetByItemPublicKey(listItemPublicKey);
+
+                // Next, weed out any Item Exclusions
+                foreach (var ls in ListShare_GetAllByListItemPublicKey(listItemPublicKey))
+                {
+                    if (itemExclusions.Where(ie => ie.ListShareID == ls.ListShareID && ie.ItemID == currentItem.ItemID).Count() == 0)
+                    {
+                        rcUsers.Add(ls.UserConsumer);
+                    }
+                }
+            }
+
+            return rcUsers;
+        }
+
         /// <summary>
         /// NOT TO BE EXPOSED TO THE API
         /// </summary>
@@ -926,7 +975,6 @@ namespace GyftoList.Data
             return newListShare;
         }
 
-
         /// <summary>
         /// This will delete the assoicated ListShare
         /// </summary>
@@ -1010,6 +1058,16 @@ namespace GyftoList.Data
         }
 
         /// <summary>
+        /// Gets all the ListShares for a specific ListItem
+        /// </summary>
+        /// <param name="listItemPublicKey"></param>
+        /// <returns></returns>
+        public List<ListShare> ListShare_GetAllByListItemPublicKey(string listItemPublicKey)
+        {
+            return ListShare_GetAllByListPublicKey(ListItem_GetByPublicKey(listItemPublicKey).List.PublicKey);
+        }
+
+        /// <summary>
         /// Gets all the current List Shares
         /// </summary>
         /// <returns></returns>
@@ -1031,6 +1089,32 @@ namespace GyftoList.Data
             }
 
             return returnShares;
+        }
+
+        /// <summary>
+        /// Returns all Consumers of List Shares for a base List
+        /// </summary>
+        /// <param name="listPublicKey"></param>
+        /// <returns></returns>
+        public List<User> ListShare_GetCoConsumersForListShare(string listPublicKey)
+        {
+            var rcUsers = new List<User>();
+
+            try
+            {
+                // Get the base list 
+                foreach (var ls in ListShare_GetAllByListPublicKey(listPublicKey))
+                {
+                    rcUsers.Add(ls.UserConsumer);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Unable to located Co-Consumers for this List Share - '{0}'",ex.InnerException.ToString()));
+            }
+
+            return rcUsers;
         }
 
         #endregion

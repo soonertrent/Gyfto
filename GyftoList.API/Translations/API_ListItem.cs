@@ -30,6 +30,7 @@ namespace GyftoList.API.Translations
         private string _size = string.Empty;
         private Int16? _qty = 0;
         private string _color = string.Empty;
+        private List<API_User> _coConsumer = new List<API_User>();
 
         #endregion
 
@@ -119,6 +120,12 @@ namespace GyftoList.API.Translations
             set { _color = value; }
         }
 
+        public List<API_User> CoConsumer
+        {
+            get { return _coConsumer; }
+            set { _coConsumer = value; }
+        }
+
         #endregion
 
         #region Public Methods
@@ -130,6 +137,7 @@ namespace GyftoList.API.Translations
         /// <returns></returns>
         public API_ListItem ConvertToAPI_ListItem(Item listItem, string listPublicKey)
         {
+            // Convert the Item to an API_Item
             return new API_ListItem { Cost = listItem.Cost, CostRangeStart = listItem.CostRangeStart, CostRangeEnd = listItem.CostRangeEnd,  Description = listItem.Description, ImageURL = listItem.ImageURL, ItemURL = listItem.ItemURL, ListPublicKey = listPublicKey, Ordinal = listItem.Ordinal, PublicKey = listItem.PublicKey, Title = listItem.Title, Active = listItem.Active, Size = listItem.Size, Qty = listItem.Qty, Color = listItem.Color };
         }
 

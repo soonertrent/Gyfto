@@ -27,6 +27,20 @@ Below is a list that has been shared for you. Enjoy!
         </ul>
     </div>
 </div>
+<div class="coConsumers">
+    <p>This list is also shared with:</p>
+    <ul>
+        @{
+            foreach (var usr in Model.CoConsumers)
+            {
+                <li>
+                    <div class="avatar"><img src="@usr.AvatarURL" title="@usr.DisplayName" alt="@usr.DisplayName" /></div>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
 <br />
 <br />
 <div class="listItemsShared">
@@ -36,7 +50,7 @@ Below is a list that has been shared for you. Enjoy!
         { 
             <li id="@i.PublicKey" alt="@i.PublicKey">
                 <div class="listItemSharedNumber">@num.ToString())</div>
-                <div class="listItemSharedImage"><a href="@i.ItemURL" alt="@i.PublicKey" target="_blank"><img src="@i.ImageURL" width="50px" alt="@i.Description" /></a></div>
+                <div class="listItemSharedImage"><a href="@i.ItemURL" title="@i.PublicKey" target="_blank"><img src="@i.ImageURL" width="50px" title="@string.Concat(i.Title," - ", i.Description)" alt="@i.Description" /></a></div>
                 <div class="listItemSharedTitle"><a href="@i.ItemURL"  target="_blank">@i.Title</a></div>
                 <div class="listItemSharedDescription">@i.Description</div>
                 <div class="listItemSharedItemProperties">
@@ -60,6 +74,15 @@ Below is a list that has been shared for you. Enjoy!
                             <li>Qty: @i.Qty.ToString()</li>        
                         }
                     </ul>
+                </div>
+                <div class="listItemSharedItemConsumers" style="margin-left:85px;">
+                    <ul>
+                        @foreach (var c in i.CoConsumer)
+                        {
+                            <li>@c.DisplayName</li>
+                        }
+                    </ul>
+
                 </div>
             </li>
             { num = num + 1;    }

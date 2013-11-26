@@ -57,8 +57,35 @@ namespace GyftoList.API.Controllers
                     }
                     else
                     {
+                        // Convert the ListShare to the public API_ListShare format
                         rShare = rShare.ConvertToAPI_ListShareWithAssociatedList(listShare);
+                        
+                        // Next, get all the co-consumers of this list
+                        foreach (var usr in dataMethods.ListShare_GetCoConsumersForListShare(listShare.List.PublicKey))
+                        {
+                            rShare.CoConsumers.Add(new API_User()
+                            {
+                                FName = usr.FName
+                                ,
+                                LName = usr.LName
+                                ,
+                                AvatarURL = usr.AvatarURL
+                                ,
+                                PublicKey = usr.PublicKey
+                                ,
+                                DisplayName = string.Concat(usr.FName, " ", usr.LName.Substring(0,1))
+                            });
+                        }
 
+                        // Last, for each Item - get any Co-Consumers there as well
+                        var convertUser = new API_User();
+                        //foreach (var item in rShare.SharedList.Items)
+                        //{
+                        //    foreach (var usr in dataMethods.ListItem_GetAllConsumersByListItemPublicKey(item.PublicKey))
+                        //    {
+                        //        item.CoConsumer.Add(convertUser.ConvertToAPI_UserWithoutAssociatedLists(usr));
+                        //    }
+                        //}
                     }
                 }
             }
