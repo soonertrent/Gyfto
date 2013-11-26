@@ -5,7 +5,7 @@
     ViewBag.Title = string.Format("{0} by {1}", @Model.SharedList.ListName, @Model.OwnerDisplayName);
 }
 <div class="sectionTitle">
-    <h3>@ViewBag.Greeting there!</h3>
+    <h3>@ViewBag.Greeting there @Model.ConsumerDisplayName.Substring(0,@Model.ConsumerDisplayName.IndexOf(" "))!</h3>
 </div>
 <p class="gyftoDescription">
 Gyfto is a social gift list service - born and raised by technology - to help you make lists of stuff you want and want people to get you.  If 
@@ -31,7 +31,7 @@ Below is a list that has been shared for you. Enjoy!
     <p>This list is also shared with:</p>
     <ul>
         @{
-            foreach (var usr in Model.CoConsumers)
+            foreach (var usr in Model.CoConsumers.Where(i => i.PublicKey != Model.ConsumerPublicKey))
             {
                 <li>
                     <div class="avatar"><img src="@usr.AvatarURL" title="@usr.DisplayName" alt="@usr.DisplayName" /></div>
