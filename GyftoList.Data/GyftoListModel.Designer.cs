@@ -222,6 +222,22 @@ namespace GyftoList.Data
             }
         }
         private ObjectSet<ItemExclusion> _ItemExclusions;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ItemShare> ItemShares
+        {
+            get
+            {
+                if ((_ItemShares == null))
+                {
+                    _ItemShares = base.CreateObjectSet<ItemShare>("ItemShares");
+                }
+                return _ItemShares;
+            }
+        }
+        private ObjectSet<ItemShare> _ItemShares;
 
         #endregion
 
@@ -297,6 +313,14 @@ namespace GyftoList.Data
         public void AddToItemExclusions(ItemExclusion itemExclusion)
         {
             base.AddObject("ItemExclusions", itemExclusion);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ItemShares EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToItemShares(ItemShare itemShare)
+        {
+            base.AddObject("ItemShares", itemShare);
         }
 
         #endregion
@@ -1339,6 +1363,208 @@ namespace GyftoList.Data
         }
         private Nullable<global::System.DateTime> _CreateDate;
         partial void OnCreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OnCreateDateChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="GyftoListModel", Name="ItemShare")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ItemShare : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ItemShare object.
+        /// </summary>
+        /// <param name="itemShareID">Initial value of the ItemShareID property.</param>
+        /// <param name="listShareID">Initial value of the ListShareID property.</param>
+        /// <param name="itemID">Initial value of the ItemID property.</param>
+        /// <param name="consumerID">Initial value of the ConsumerID property.</param>
+        /// <param name="publicKey">Initial value of the PublicKey property.</param>
+        /// <param name="createDate">Initial value of the CreateDate property.</param>
+        public static ItemShare CreateItemShare(global::System.Int32 itemShareID, global::System.Int32 listShareID, global::System.Int32 itemID, global::System.Int32 consumerID, global::System.String publicKey, global::System.DateTime createDate)
+        {
+            ItemShare itemShare = new ItemShare();
+            itemShare.ItemShareID = itemShareID;
+            itemShare.ListShareID = listShareID;
+            itemShare.ItemID = itemID;
+            itemShare.ConsumerID = consumerID;
+            itemShare.PublicKey = publicKey;
+            itemShare.CreateDate = createDate;
+            return itemShare;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ItemShareID
+        {
+            get
+            {
+                return _ItemShareID;
+            }
+            set
+            {
+                if (_ItemShareID != value)
+                {
+                    OnItemShareIDChanging(value);
+                    ReportPropertyChanging("ItemShareID");
+                    _ItemShareID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ItemShareID");
+                    OnItemShareIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ItemShareID;
+        partial void OnItemShareIDChanging(global::System.Int32 value);
+        partial void OnItemShareIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ListShareID
+        {
+            get
+            {
+                return _ListShareID;
+            }
+            set
+            {
+                if (_ListShareID != value)
+                {
+                    OnListShareIDChanging(value);
+                    ReportPropertyChanging("ListShareID");
+                    _ListShareID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ListShareID");
+                    OnListShareIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ListShareID;
+        partial void OnListShareIDChanging(global::System.Int32 value);
+        partial void OnListShareIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ItemID
+        {
+            get
+            {
+                return _ItemID;
+            }
+            set
+            {
+                if (_ItemID != value)
+                {
+                    OnItemIDChanging(value);
+                    ReportPropertyChanging("ItemID");
+                    _ItemID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ItemID");
+                    OnItemIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ItemID;
+        partial void OnItemIDChanging(global::System.Int32 value);
+        partial void OnItemIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ConsumerID
+        {
+            get
+            {
+                return _ConsumerID;
+            }
+            set
+            {
+                if (_ConsumerID != value)
+                {
+                    OnConsumerIDChanging(value);
+                    ReportPropertyChanging("ConsumerID");
+                    _ConsumerID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ConsumerID");
+                    OnConsumerIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ConsumerID;
+        partial void OnConsumerIDChanging(global::System.Int32 value);
+        partial void OnConsumerIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String PublicKey
+        {
+            get
+            {
+                return _PublicKey;
+            }
+            set
+            {
+                if (_PublicKey != value)
+                {
+                    OnPublicKeyChanging(value);
+                    ReportPropertyChanging("PublicKey");
+                    _PublicKey = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("PublicKey");
+                    OnPublicKeyChanged();
+                }
+            }
+        }
+        private global::System.String _PublicKey;
+        partial void OnPublicKeyChanging(global::System.String value);
+        partial void OnPublicKeyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime CreateDate
+        {
+            get
+            {
+                return _CreateDate;
+            }
+            set
+            {
+                if (_CreateDate != value)
+                {
+                    OnCreateDateChanging(value);
+                    ReportPropertyChanging("CreateDate");
+                    _CreateDate = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("CreateDate");
+                    OnCreateDateChanged();
+                }
+            }
+        }
+        private global::System.DateTime _CreateDate;
+        partial void OnCreateDateChanging(global::System.DateTime value);
         partial void OnCreateDateChanged();
 
         #endregion

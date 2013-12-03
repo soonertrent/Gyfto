@@ -16,6 +16,7 @@ namespace GyftoList.API.Translations
 
         #region Private Members
 
+        private int _itemID = 0;
         private string _publicKey = string.Empty;
         private string _listPublicKey = string.Empty;
         private string _title = string.Empty;
@@ -35,6 +36,12 @@ namespace GyftoList.API.Translations
         #endregion
 
         #region Public Members
+
+        public int ItemID
+        {
+            get { return _itemID; }
+            set { _itemID = value; }
+        }
 
         public string PublicKey
         {

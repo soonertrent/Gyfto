@@ -1119,6 +1119,88 @@ namespace GyftoList.Data
 
         #endregion
 
+        #region ItemShare
+
+        /// <summary>
+        /// Creates a new ItemShare for a given ListShare and Item
+        /// </summary>
+        /// <param name="listShareID"></param>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        public ItemShare ItemShare_Create(int listShareID, int itemID)
+        {
+            var newItemShare = new ItemShare();
+            try
+            {
+                newItemShare.CreateDate = DateTime.Now;
+                newItemShare.PublicKey = GeneratePublicKey();
+                newItemShare.ListShareID = listShareID;
+                newItemShare.ItemID = itemID;
+                
+                using(_gyftoListEntities = new GyftoListEntities())
+                { 
+                    _gyftoListEntities.ItemShares.AddObject(newItemShare);
+                    _gyftoListEntities.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Unable to create ItemShare - Error: '{1}'", ex.InnerException.ToString()));
+            }
+
+            return newItemShare;
+        }
+
+        /// <summary>
+        /// Returns an ItemShare by it's Public Key
+        /// </summary>
+        /// <param name="itemSharePublicKey"></param>
+        /// <returns></returns>
+        public ItemShare ItemShare_GetByPublicKey(string itemSharePublicKey)
+        {
+            ItemShare rcItemShare;
+
+            try
+            {
+                using (_gyftoListEntities = new GyftoListEntities())
+                {
+                    rcItemShare = _gyftoListEntities.ItemShares.Where(i => i.PublicKey == itemSharePublicKey).SingleOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return rcItemShare;
+        }
+
+        /// <summary>
+        /// Delete's a given ItemShare
+        /// </summary>
+        /// <param name="itemSharePublicKey"></param>
+        /// <returns></returns>
+        public bool ItemShare_Delete(string itemSharePublicKey)
+        {
+            var rc = false;
+            try
+            {
+                using(_gyftoListEntities = new GyftoListEntities())
+                {
+                    _gyftoListEntities.ItemShares.DeleteObject(_gyftoListEntities.ItemShares.Where(i => i.PublicKey == itemSharePublicKey).SingleOrDefault());
+                    _gyftoListEntities.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(string.Format("Unable to delete ItemShare '{0}' - Error: {1}",itemSharePublicKey, ex.InnerException.ToString()));
+            }
+
+            return rc;
+        }
+
+        #endregion
+
         #region User
 
         /// <summary>

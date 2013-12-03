@@ -53,12 +53,12 @@ namespace GyftoList.ConsoleAppTester
             //var count = QueryEmailAddresses();
             //var user = CreateUserAccount();
 
-            //var listItemPublicKey = "87a020ce";
-            //Console.WriteLine("Deleting List Item " + listItemPublicKey);
+            //var listItemPublicKey = "e3ef4242";
+            ////Console.WriteLine("Deleting List Item " + listItemPublicKey);
             //Console.WriteLine(DeleteListItem(listItemPublicKey));
             //Console.ReadLine();
 
-            //var listPublicKey = "49c8f932";
+            var listPublicKey = "49c8f932";
 
             //var newListItem = GenerateListItem();
             //var newItem = CreateListItem(listPublicKey, newListItem);
@@ -102,29 +102,29 @@ namespace GyftoList.ConsoleAppTester
 
             // GoPro - "acb62b1b" - to 2nd
 
-            var itemPublicKey = "53cc37e6";
+            //var itemPublicKey = "53cc37e6";
             ////GetListItemByPublicKey(itemPublicKey);
             //var rcMsg = UpdateListItemOrdinal(itemPublicKey, 13);
             //Console.WriteLine(string.Format("{0} Updated with status '{1}'", itemPublicKey, rcMsg.StatusCode.ToString()));
             //Console.ReadLine();
 
             // GET ALL CONSUMERS OF A LIST ITEM
-            var itemConsumers = GetAllConsumersOfListItem(itemPublicKey);
-            Console.Write(itemPublicKey);
-            foreach (var u in itemConsumers)
-            {
-                Console.WriteLine(string.Format("{0}",u.FName));
-            }
-            Console.WriteLine();
+            //var itemConsumers = GetAllConsumersOfListItem(itemPublicKey);
+            //Console.Write(itemPublicKey);
+            //foreach (var u in itemConsumers)
+            //{
+            //    Console.WriteLine(string.Format("{0}",u.FName));
+            //}
+            //Console.WriteLine();
 
-            itemPublicKey = "aac6d432";
-            Console.Write(itemPublicKey);
-            itemConsumers = GetAllConsumersOfListItem(itemPublicKey);
-            foreach (var u in itemConsumers)
-            {
-                Console.WriteLine(string.Format("{0}", u.FName));
-            }
-            Console.ReadLine();
+            //itemPublicKey = "aac6d432";
+            //Console.Write(itemPublicKey);
+            //itemConsumers = GetAllConsumersOfListItem(itemPublicKey);
+            //foreach (var u in itemConsumers)
+            //{
+            //    Console.WriteLine(string.Format("{0}", u.FName));
+            //}
+            //Console.ReadLine();
 
 
             // DELETING CURRENT LIST SHARES
@@ -173,11 +173,24 @@ namespace GyftoList.ConsoleAppTester
             //    Console.ReadLine();
 
             //}
+
+            
+            //var utility = new Util.User();
+            //var itemExclusionPublicKey = utility.GenerateUserPublicKey();
+            //var itemPublicKey = "33ffd7cf";
+            //var listSharePublicKey = GetListShares().Where(i => i.UserConsumer.FName == "Sharon").SingleOrDefault().PublicKey;
+            //var rc = CreateItemExclusion(GenerateItemExclusion(itemExclusionPublicKey, itemPublicKey, listSharePublicKey));
+            //if (rc.IsSuccessStatusCode)
+            //{
+            //    //Console.WriteLine("Created Item Exclusion for '{0}' in the share for '{1}'", i.Title, consumer.FName);
+            //    Console.WriteLine("Created Item Exclusion");
+            //}
+            //Console.ReadLine();
            
 
 
             //Console.ReadLine();
-            //UpdateListItemOrdinal(12, 2, listPublicKey);
+            //UpdateListItemOrdinal(25, 8, listPublicKey);
 
             //var one = GetListItemByDisplayOrdinal(listPublicKey, 1);
             //Console.WriteLine(string.Format("List Item '{0}' - '{1}'", one.Title, 1));
@@ -301,18 +314,18 @@ namespace GyftoList.ConsoleAppTester
         static private Item GenerateListItem()
         { 
             return new Item(){
-                Title = "Porsche 911: 50 Years"
-                , Description = "Book about my favorite car. :)"
+                Title = "Men's Thermoball Full Zip Jacket"
+                , Description = "Man this looks toasty"
                 ,
-                ItemURL = "http://www.amazon.com/Porsche-911-Years-Randy-Leffingwell/dp/0760344019/ref=sr_1_1?ie=UTF8&qid=1384917370&sr=8-1&keywords=porsche+50+years"
+                ItemURL = "http://www.thenorthface.com/catalog/sc-gear/men-39-s-thermoball-full-zip-jacket.html"
                 ,
-                ImageURL = "http://ecx.images-amazon.com/images/I/31Pxg0GemSL._SX258_PJlook-inside-v2,TopRight,1,0_SH20_BO1,204,203,200_.jpg"
-                , Size = string.Empty
-                , Color = string.Empty
+                ImageURL = "http://images.thenorthface.com/is/image/TheNorthFace/A7ZG_682_back?$76x76$"
+                , Size = "L"
+                , Color = "TNF Red"
                 , Qty = 1
-                , Cost = 0.00m
-                , CostRangeStart = 35.98m
-                , CostRangeEnd = 50.00m};
+                , Cost = 1.99m
+                , CostRangeStart = 0.0m
+                , CostRangeEnd = 0.0m};
         }
     
         static private Item Deprecated_CreateListItem(string listPublicKey)
@@ -523,6 +536,11 @@ namespace GyftoList.ConsoleAppTester
             }
 
             return rc;
+        }
+
+        static private API_ItemExclusion GenerateItemExclusion(string publicKey, string itemPublicKey, string listSharePublicKey)
+        {
+            return new API_ItemExclusion() { PublicKey = publicKey, ItemPublicKey = itemPublicKey, ListSharePublicKey = listSharePublicKey };
         }
 
         static private HttpResponseMessage CreateItemExclusion(API_ItemExclusion itemExclusion)

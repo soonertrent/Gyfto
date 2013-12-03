@@ -152,6 +152,12 @@ namespace GyftoList.API.Controllers
                             listItem.Ordinal,
                             listItem.ImageURL,
                             listItem.ItemURL);
+
+                        // Next, create an ItemShare for the item for all the associated ListShares
+                        foreach (var ls in _dataMethods.ListShare_GetAllByListPublicKey(item.ListPublicKey))
+                        {
+                            _dataMethods.ItemShare_Create(ls.ListShareID, item.ItemID);
+                        }
                     }
                 }
                 catch (Exception)

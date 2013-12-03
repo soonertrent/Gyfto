@@ -73,6 +73,10 @@ Below is a list that has been shared for you. Enjoy!
                         { 
                             <li>Qty: @i.Qty.ToString()</li>        
                         }
+                        @if (!string.IsNullOrEmpty(i.Size))
+                        { 
+                            <li>Size: @i.Size</li>
+                        }
                     </ul>
                 </div>
                 <div class="listItemSharedItemConsumers" style="margin-left:85px;">
